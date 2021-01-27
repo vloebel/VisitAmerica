@@ -32,9 +32,7 @@ var getParkHistory = function(){
     if (!retrievedParks) {
         retrievedParks =[];
     };
-
-    return retrievedParks;
-    
+    return retrievedParks; 
 };
 
 // saves new parks to parkHistory to localStorage if they aren't already there
@@ -51,8 +49,6 @@ var saveParkHistory = function() {
     }
     // if park is not in parkHistory array then save to localStorage
     if (!foundPark && parks.stateName) {
-        //console.log("parkHistory = ", parkHistory);
-
         parkHistory.push(parks);
         localStorage.setItem("parkHistory", JSON.stringify(parkHistory));
     } 
@@ -69,6 +65,7 @@ var displayParkHistory = function(parkHistory) {
                 var parkListItem = document.createElement("li");
                 parkListItem.id = parkHistory[i].parkCode[j];
                 parkListItem.textContent = parkHistory[i].parkName[j];
+                // adds event listeners on each list item
                 parkListItem.addEventListener("click", function (event) {
                     event.preventDefault();
                     cleanStart();
@@ -113,31 +110,11 @@ var displayParks = function() {
     }    
 // end of displayParks function    
 };
-/*
-var fetchCampgrounds = function(parkCode) {
-    // gets national park information
-    //var apiParks = "https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
-    var apiCampgrounds = "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
-    //var apiParks = "https://developer.nps.gov/api/v1/parks?start=151&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
-    fetch(apiCampgrounds).then(function (response) {
-        return response.json();
-    })
-    .then(function(data) {
-        console.log(data.data);
-    })
-    .catch(function(error) {
-        console.error(error);
-        alert("Problem finding campgrounds");
-    });
-// end of fetchParks function
-};
-*/
+
 
 var fetchParks = function (stateName) {
     // gets national park information
-    //var apiParks = "https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
     var apiParks = "https://developer.nps.gov/api/v1/parks?stateCode=" + stateName + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
-    //var apiParks = "https://developer.nps.gov/api/v1/parks?start=151&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
     fetch(apiParks).then(function (response) {
         return response.json();
     })
@@ -145,7 +122,6 @@ var fetchParks = function (stateName) {
         // console.log(data.data);
         parks.stateName = stateName;
         for (i = 0; i < data.data.length; i++) {
-            // console.log(data.data[i].fullName, data.data[i].parkCode);
             parks.parkName[i] = data.data[i].fullName;
             parks.parkCode[i] = data.data[i].parkCode;
         }
@@ -153,7 +129,6 @@ var fetchParks = function (stateName) {
         displayParks();
 
         saveParkHistory(parks);
-        // console.log("parks = ", parks.parkName.length);
         
     })
     .catch(function(error) {
@@ -170,7 +145,6 @@ var getState = function (event) {
     // cleanStart();
 
     var stateName = stateNameEl.value.trim().toUpperCase();
-    // console.log(stateName);
 
     fetchParks(stateName);
 
