@@ -13,45 +13,49 @@
 
   <link rel="stylesheet" href="./assets/css/materialize.css" />
   <link rel="stylesheet" href="./assets/css/style.css" />
-  <title>Happy Camper</title>
+  <title>Park Information</title>
 </head>
 
 <body>
   <header>
-    <h1>Happy Camper</h1>
-    <div>
-      <!-- Page Content goes here -->
-      <h2>I am a happy camper</h2>
-    </div>
+    <h1>GENERATED IN JS - SELECTED PARK name</h1>
+    <!-- possibly include a picture or quote if we can grab one from somewhere -->
   </header>
-  <main class="container">
-    <div id="park-search">
-      <h4>Search for a National Parks in a State:</h4>
-      <form id="state-form">
-        <input type="text" id="state-name">
-        <button type="submit" id="search-btn">
-          <i class="fas fa-search"></i>
-        </button>
+  <main>
+    <!-- This div holds the api results that give -->
+    <!-- campground information about the selected park -->
+    <h2>Campground Information</h2>
+    <div id="campground-info">
+      <ul id="campground-list">
+      
+        <!-- append campground info here -->
+        CAMPGROUND LIST WILL BE GENERATED HERE
+      </ul>
+     </div>
+     <div id="visitor-center-info">
+      
+      
+        <!-- append visitor center -->
+        VISITOR CENTER INFO DISPLAYED HERE
+      
+     </div>
+     <div id="five-day-forecast">
+          
+        <!-- append weather cards -->
+        WEATHER CARDS
+        - use ID naming convention:
+        card0, card1, card2, card3, card4
+     
+     </div>
 
-      </form>
-      <div id="history">
-        <!-- search history goes here -->
-        SEARCH HISTORY WILL BE IN THIS DIV
-        <ul id="park-history"></ul>
-      </div>
-      <div id="list">
-        <!--search list go here -->
-        <ul id="park-list"></ul>
-      </div>
-
-    </div>
+    
   </main>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/script2.js"></script>
 </body>
 
 </html>
