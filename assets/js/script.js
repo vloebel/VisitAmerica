@@ -2,13 +2,18 @@ var stateNameSubmitEl = document.querySelector("#state-form");
 var stateNameEl = document.querySelector("#state-name");
 var parkListEl = document.querySelector("#park-list");
 var parkHistoryEl = document.querySelector("#park-history");
-var parkCode = '';
-
+// parkChose parkCode and parkName will be saved to localStorage
+var parkChosen = {
+    parkCode: "",
+    parkName: ""
+};
+// parks contains info on the parks from a state
 var parks = {
     stateName: "",
     parkName: [],
     parkCode: []
 };
+// saved to localStorage
 var parkHistory = [];
 
 // clears out HTML in element with particular id
@@ -69,9 +74,10 @@ var displayParkHistory = function(parkHistory) {
                 parkListItem.addEventListener("click", function (event) {
                     event.preventDefault();
                     cleanStart();
-                    parkCode = event.target.id;
-                    console.log("in displayParkHistory ", parkCode);
-                    localStorage.setItem("parkCode", JSON.stringify(parkCode));
+                    parkChosen.parkCode = event.target.id;
+                    parkChosen.parkName = event.target.textContent;
+                    //console.log("in displayParkHistory ", parkChosen);
+                    localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
 
                     //fetchCampgrounds(event.target.id);
                     window.location.href = "./index2.html";
@@ -98,7 +104,7 @@ var displayParks = function() {
             parkListItem.addEventListener("click", function (event) {
                 event.preventDefault();
                 parkCode = event.target.id;
-                console.log("In displayParks ", parkCode);
+                // console.log("In displayParks ", parkCode);
                 localStorage.setItem("parkCode", JSON.stringify(parkCode));
                 window.location.href = "./index2.html";
                 // put fetch in 2nd javascript
@@ -113,13 +119,16 @@ var displayParks = function() {
 
 
 var fetchParks = function (stateName) {
+    // removes prior search history from localStorage
+    //storage.clear();
+
     // gets national park information
     var apiParks = "https://developer.nps.gov/api/v1/parks?stateCode=" + stateName + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
     fetch(apiParks).then(function (response) {
         return response.json();
     })
     .then(function(data) {
-        // console.log(data.data);
+        console.log(data.data);
         parks.stateName = stateName;
         for (i = 0; i < data.data.length; i++) {
             parks.parkName[i] = data.data[i].fullName;
@@ -152,9 +161,6 @@ var getState = function (event) {
 
 cleanStart();
 
-//stateNameEl.addEventListener("change", getState);
-
-console.log(stateNameEl.value);
 stateNameEl.onchange = function() {
   fetchParks(stateNameEl.value);
 }
