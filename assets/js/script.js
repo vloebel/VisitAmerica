@@ -144,7 +144,7 @@ var getState = function (event) {
     
     // cleanStart();
 
-    var stateName = stateNameEl.value.trim().toUpperCase();
+    var stateName = stateNameEl.value;
 
     fetchParks(stateName);
 
@@ -152,4 +152,9 @@ var getState = function (event) {
 
 cleanStart();
 
-stateNameSubmitEl.addEventListener("submit", getState);
+//stateNameEl.addEventListener("change", getState);
+
+console.log(stateNameEl.value);
+stateNameEl.onchange = function() {
+  fetchParks(stateNameEl.value);
+}
