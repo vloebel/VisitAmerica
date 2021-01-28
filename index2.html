@@ -11,32 +11,65 @@
   <!-- awesome fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 
-  <link rel="stylesheet" href="./assets/css/materialize.css" />
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- <link rel="stylesheet" href="./assets/css/materialize.css" /> -->
   <link rel="stylesheet" href="./assets/css/style.css" />
   <title>Park Information</title>
 </head>
 
 <body>
+  <nav>
+    <div class="nav-wrapper green darken-4 white-text">
+      <a href="#"  class="brand-logo ">Happy Camper</a>
+      
+    </div>
+  </nav>
+  
+  <div class="hero">
+    <!-- hero is in css for use on multiple pages -->
+    <img class="responsive-img" src="./assets/img/AngelsLanding-theraja.jpg">
+  </div> 
+
   <header>
-    <h1>GENERATED IN JS - SELECTED PARK name</h1>
+    <h1 id="park-chosen">GENERATED IN JS - SELECTED PARK name</h1>
     <!-- possibly include a picture or quote if we can grab one from somewhere -->
   </header>
   <main>
     <!-- This div holds the api results that give -->
     <!-- campground information about the selected park -->
-    <h2>Campground Information</h2>
-    <div id="campground-info">
-      <ul id="campground-list">
+    <div class="row">
+      <div class="col s12">
+        <h2 id="campground-info">Campground Information</h2>
+      </div>
+      <div class="col s6">
+        <ul id="campground-list">
       
         <!-- append campground info here -->
-        CAMPGROUND LIST WILL BE GENERATED HERE
+        <h5>CAMPGROUND LIST WILL BE GENERATED HERE</h5>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil quos doloremque dolorum tempore beatae debitis vero? Quae consequatur nisi laudantium architecto est? Ipsam quam laudantium tenetur dicta quasi explicabo odio.</p>
       </ul>
-     </div>
-     <div id="visitor-center-info">
+    </div>
+      <div class="col s6" id="visitor-center-info">
+        <!-- append visitor center -->
+        <h5>VISITOR CENTER INFO DISPLAYED HERE</h5>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur repellat nisi soluta possimus maiores, tempore placeat beatae nemo nostrum voluptatem doloremque earum recusandae aut, veniam non nesciunt libero consequuntur laborum.</p>
+      </div>
+    </div>
+    <!-- <h2>Campground Information</h2> -->
+    <!-- <div id="campground-info"> -->
+      <!-- <ul id="campground-list"-->
+      
+        <!-- append campground info here -->
+        <!-- CAMPGROUND LIST WILL BE GENERATED HERE
+      </ul>
+     </div> -->
+     <!-- <div id="visitor-center-info"-->
       
       
         <!-- append visitor center -->
-        VISITOR CENTER INFO DISPLAYED HERE
+        <!-- VISITOR CENTER INFO DISPLAYED HERE -->
       
      </div>
      <div id="five-day-forecast">
@@ -55,7 +88,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="./assets/js/script2.js"></script>
+  <!-- <script src="./assets/js/script2.js"></script> -->
 </body>
 
 </html>
