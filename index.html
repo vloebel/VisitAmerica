@@ -1,102 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--Import Google Icon Font -- needed for Materialize-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- awesome fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <!-- Compiled and minified Materialize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css" /> 
-    <title>Happy Camper</title>
-  </head>  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--Import Google Icon Font -- needed for Materialize-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- awesome fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+  <!-- Compiled and minified Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <title>Happy Camper</title>
+</head>
 
 <body>
   <nav>
     <div id="HC-home" style="padding-left: 1%" class="nav-wrapper green darken-4 white-text">
-      <a href="#"  class="brand-logo ">Happy Camper</a>
+      <a href="#" class="brand-logo ">Happy Camper</a>
     </div>
   </nav>
-  
+
   <div class="hero ">
     <!-- hero is in css for use on multiple pages -->
-  </div> 
+  </div>
 
   <main class="container">
-    <h4 >Select a State to see a list of national parks and monuments:</h4>
+    <h4>Select a State to see a list of national parks and monuments:</h4>
     <div id="park-search" class="input-field col s6">
       <select id="state-name">
-        <option value="blank">Choose a State</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AK">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
-        <option value="CT">Connecticut</option>
-        <option value="DE">Delaware</option>
-        <option value="FL">Florida</option>
-        <option value="GA">Georgia</option>
-        <option value="HI">Hawaii</option>
-        <option value="ID">Idaho</option>
-        <option value="IL">Illinois</option>
-        <option value="IN">Indiana</option>
-        <option value="IA">Iowa</option>
-        <option value="KS">Kansas</option>
-        <option value="KY">Kentucky</option>
-        <option value="LA">Louisiana</option>
-        <option value="ME">Maine</option>
-        <option value="MD">Maryland</option>
-        <option value="MA">Massachusetts</option>
-        <option value="MI">Michigan</option>
-        <option value="MN">Minnesota</option>
-        <option value="MS">Mississippi</option>
-        <option value="MO">Missouri</option>
-        <option value="MY">Montana</option>
-        <option value="NE">Nebraska</option>
-        <option value="NV">Nevada</option>
-        <option value="NH">New Hampshire</option>
-        <option value="NJ">New Jersey</option>
-        <option value="NM">New Mexico</option>
-        <option value="NY">New York</option>
-        <option value="NC">North Carolina</option>
-        <option value="ND">North Dakota</option>
-        <option value="OH">Ohio</option>
-        <option value="OK">Oklahoma</option>
-        <option value="OR">Oregon</option>
-        <option value="PA">Pennsylvania</option>
-        <option value="RI">Rhode Island</option>
-        <option value="SC">South Carolina</option>
-        <option value="SD">South Dakota</option>
-        <option value="TN">Tennessee</option>
-        <option value="TX">Texas</option>
-        <option value="UT">Utah</option>
-        <option value="VT">Vermont</option>
-        <option value="VA">Virginia</option>
-        <option value="WA">Washington</option>
-        <option value="WV">West Virginia</option>
-        <option value="WI">Wisconsin</option>
-        <option value="WY">Wyoming</option>
+        <option id="blank">Choose a State</option>
+        <option id="AL" value="Alabama">Alabama</option>
+        <option id="AK" value="Alaska">Alaska</option>
+        <option id="AZ" value="Arizona">Arizona</option>
+        <option id="AR" value="Arkansas">Arkansas</option>
+        <option id="CA" value="California">California</option>
+        <option id="CO" value="Colorado">Colorado</option>
+        <option id="CT" value="Connecticut">Connecticut</option>
+        <option id="DE" value="Delaware">Delaware</option>
+        <option id="FL" value="Florida">Florida</option>
+        <option id="GA" value="Georgia">Georgia</option>
+        <option id="HI" value="Hawaii">Hawaii</option>
+        <option id="ID" value="Idaho">Idaho</option>
+        <option id="IL" value="Illinois">Illinois</option>
+        <option id="IN" value="Indiana">Indiana</option>
+        <option id="IA" value="Iowa">Iowa</option>
+        <option id="KS" value="Kansas">Kansas</option>
+        <option id="KY" value="Kentucky">Kentucky</option>
+        <option id="LA" value="Louisiana">Louisiana</option>
+        <option id="ME" value="Maine">Maine</option>
+        <option id="MD" value="Maryland">Maryland</option>
+        <option id="MA" value="Massachusetts">Massachusetts</option>
+        <option id="MI" value="Michigan">Michigan</option>
+        <option id="MN" value="Minnesota">Minnesota</option>
+        <option id="MS" value="Mississippi">Mississippi</option>
+        <option id="MO" value="Missouri">Missouri</option>
+        <option id="MY" value="Montana">Montana</option>
+        <option id="NE" value="Nebraska">Nebraska</option>
+        <option id="NV" value="Nevada">Nevada</option>
+        <option id="NH" value="New Hampshire">New Hampshire</option>
+        <option id="NJ" value="New Jersey">New Jersey</option>
+        <option id="NM" value="New Mexico">New Mexico</option>
+        <option id="NY" value="New York">New York</option>
+        <option id="NC" value="North Carolina">North Carolina</option>
+        <option id="ND" value="North Dakota">North Dakota</option>
+        <option id="OH" value="Ohio">Ohio</option>
+        <option id="OK" value="Oklahoma">Oklahoma</option>
+        <option id="OR" value="Oregon">Oregon</option>
+        <option id="PA" value="Pennsylvania">Pennsylvania</option>
+        <option id="RI" value="Rhode Island">Rhode Island</option>
+        <option id="SC" value="South Carolina">South Carolina</option>
+        <option id="SD" value="South Dakota">South Dakota</option>
+        <option id="TN" value="Tennessee">Tennessee</option>
+        <option id="TX" value="Texas">Texas</option>
+        <option id="UT" value="Utah">Utah</option>
+        <option id="VT" value="Vermont">Vermont</option>
+        <option id="VA" value="Virginia">Virginia</option>
+        <option id="WA" value="Washington">Washington</option>
+        <option id="WV" value="West Virginia">West Virginia</option>
+        <option id="WI" value="Wisconsin">Wisconsin</option>
+        <option id="WY" value="Wyoming">Wyoming</option>
       </select>
     </div>
-    
+
     <div class="row">
       <div id="list" class="col s12 m6 l6">
-    <h3>Current Parks</h3>
-    <!--not used - displayed above? -->
-    <ul id="park-list"></ul>
-  </div>
-  <div id="history" class="col s12 m6 l6">
-    <h3>Recent Parks</h3>
-    <!-- search history goes here -->
-    <ul id="park-history"></ul>
-  </div>
- 
-</div> 
-     
+        <!--js builds heading string "Parks in 'whatever park is selected'" -->
+        <h5 id="park-heading">National Parks</h5>
+        <ul id="park-list"></ul>
+      </div>
+      <div id="history" class="col s12 m6 l6">
+        <h5>Recently Viewed Parks</h5>
+        <!-- search history goes here -->
+        <ul id="park-history"></ul>
+      </div>
+
+    </div>
+
   </main>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -106,9 +106,9 @@
   <script src="./assets/js/script.js"></script>
 
   <script>
-    $(document).ready(function(){
-     $('select').formSelect();
-   });
+    $(document).ready(function () {
+      $('select').formSelect();
+    });
   </script>
 </body>
 
