@@ -4,7 +4,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  ​
     <!--Import Google Icon Font -- needed for Materialize-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- awesome fonts -->
@@ -28,7 +27,6 @@
 
   <main class="container">
     <h4 >Select a State to see a list of national parks and monuments:</h4>
- 
     <div id="park-search" class="input-field col s6">
       <select id="state-name">
         <option value="blank">Choose a State</option>
@@ -83,17 +81,23 @@
         <option value="WI">Wisconsin</option>
         <option value="WY">Wyoming</option>
       </select>
+      </div>
+   
 
-      <div id="history">
+    <div class="row">
+          <div id="list" class="col s12 m6 l6">
+        <h3>Current Parks</h3>
+        <!--not used - displayed above? -->
+        <ul id="park-list"></ul>
+      </div>
+      <div id="history" class="col s12 m6 l6">
+        <h3>Recent Parks</h3>
         <!-- search history goes here -->
         <ul id="park-history"></ul>
       </div>
-      <div id="list">
-        <!--search list go here -->
-        <ul id="park-list"></ul>
-      </div>
+     
+    </div> 
 
-    </div>
   </main>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
