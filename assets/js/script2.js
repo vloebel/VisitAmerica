@@ -4,10 +4,14 @@ var returnToSearchBtnEl = document.querySelector("#return-to-search");
 var campgroundListEl = document.querySelector("#campground-list");
 var visitorCenterEl = document.querySelector("#visitor-center");
 
-// parkChosen by user pulled from localStorage
-var parkChosen = {
+// park info pulled from localStorage
+var park = {
     parkCode: "",
-    parkName: ""
+    parkName: "",
+    latitude: "",
+    longitude: "",
+    imageUrl: "",
+    imageAlt: ""
 };
 
 // campground array
@@ -17,17 +21,16 @@ var visitorCenter = {
     name: "",
     description: "",
     imageUrl: "",
-    imageAlt: "",
-    city: "",
-    state: ""
+    imageAlt: ""
 }; 
 // forecasted park weather information
 var parkForecast = {
     forecastDate: [],
     forecastTemp: [],
-    forecastHumidity: [],
     forecastIcon: []
 };
+// from localStorage
+var parkHistory = [];
 
 // displays parks on the page in the state user chose
 var displayCampgrounds = function() {
@@ -53,7 +56,7 @@ var displayVisitorCenter = function() {
         var visitorCenterName = document.createElement("h4");
         visitorCenterName.textContent = visitorCenter.name;
         visitorCenterName.id = "visitor-center-name";
-        var visitorCenterInfo = document.createElement("textarea");
+        var visitorCenterInfo = document.createElement("p");
         visitorCenterInfo.textContent = visitorCenter.description;
         visitorCenterInfo.id = "visitor-center-info";
         var visitorCenterImage = document.createElement("img");
@@ -100,7 +103,7 @@ var fetchVisitorCenter = function(parkCode) {
         return response.json();
     })
     .then(function(data) {
-        console.log(data.data);
+        console.log("fetchVisitorCenter data", data.data);
         // take first visitor center info available
         if (data.data[0]) {
             visitorCenter.name = data.data[0].name;
@@ -110,11 +113,8 @@ var fetchVisitorCenter = function(parkCode) {
                 visitorCenter.imageUrl = data.data[0].images[0].url;
                 visitorCenter.imageAlt = data.data[0].images[0].altText;
             }
-            visitorCenter.city = data.data[0].addresses[0].city; 
-            visitorCenter.state = data.data[0].addresses[0].stateCode;
         }
-        console.log("before fetchForecast ", visitorCenter);
-        fetchForecast(visitorCenter.city, visitorCenter.state);
+
         displayVisitorCenter();
         
     })
@@ -130,54 +130,96 @@ var backToSearch = function(event) {
     window.location.href = "./index.html";
 }
 
+// retrieves prior parks searched from localStorage
+var getParkHistory = function(){
+
+    var retrievedParks = localStorage.getItem("parkHistory");
+    retrievedParks = JSON.parse(retrievedParks);
+    if (!retrievedParks) {
+        retrievedParks =[];
+    };
+    return retrievedParks; 
+};
+
+var getParkIndex = function(parkChosen) {
+    // finds the park is already in parkHistory
+    var parkIndex = -1;
+    console.log("parkHistory ", parkHistory);
+    console.log("parkChosen", parkChosen);
+    if (parkHistory) {
+        for (i = 0; i < parkHistory.length; i++) {
+            if (parkHistory[i].parkCode === parkChosen.parkCode) {
+                parkIndex = i;      
+            }
+        }
+    }
+    return parkIndex;
+}
+
 var getParkChosen = function() {
-    parkChosen = localStorage.getItem("parkChosen");
+    var parkChosen = localStorage.getItem("parkChosen");
     parkChosen = JSON.parse(parkChosen);
     parkChosenEl.textContent = parkChosen.parkName;
-    fetchCampgrounds(parkChosen.parkCode);
-    fetchVisitorCenter(parkChosen.parkCode);
+
+    parkHistory = getParkHistory();
+    var parkIndex = getParkIndex(parkChosen);
+    park.parkCode = parkHistory[parkIndex].parkCode;
+    park.parkName = parkHistory[parkIndex].parkName;
+    park.latitude = parkHistory[parkIndex].latitude;
+    park.longitude = parkHistory[parkIndex].longitude;
+    park.imageUrl = parkHistory[parkIndex].imageUrl;
+    park.imageAlt = parkHistory[parkIndex].imageAlt;
+
+    fetchCampgrounds(park.parkCode);
+    fetchVisitorCenter(park.parkCode);
+    fetchForecast(park.latitude, park.longitude);
+    
 };
 
 var initializeParkForecast = function() {
     parkForecast.forecastDate.length = 0;
     parkForecast.forecastTemp.length = 0;
-    parkForecast.forecastHumidity.length = 0;
     parkForecast.forecastIcon.length = 0;
 };
 
-var fetchForecast = function (city,state) {
+var displayForecast = function () {
+    // displays forecasted weather elements on page
+    for (i = 0; i < 5; i++) {
+        var cardContainerEl = document.querySelector("#card" + i.toString());
+        var cardDateEl = document.querySelector("#card-date-" + i.toString());
+        console.log("cardDateEl", cardDateEl);
+        cardDateEl.textContent = parkForecast.forecastDate[i];
+        var cardIconEl = document.querySelector("#card-icon-" + i.toString());
+        cardIconEl.src = "http://openweathermap.org/img/wn/" + parkForecast.forecastIcon[i] + "@2x.png";
+        var cardTempEl = document.querySelector("#card-temp-" + i.toString());
+        cardTempEl.textContent = parkForecast.forecastTemp[i];
+
+    }
+    // end of displayForecast Function
+}
+
+var fetchForecast = function (latitude, longitude) {
     // gets 5-day forecast
-    var apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + state + ",US&units=imperial&appid=36badb05283e47c914843551c2046d2d";
+    var apiUrlForecast = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=minutely,hourly,alerts&units=imperial&appid=36badb05283e47c914843551c2046d2d";
+    
     fetch(apiUrlForecast).then(function (response) {
         return response.json();
     })
     .then(function(data) {
-        console.log("in fetchForecast", data);
-
+        //console.log("in fetchForecast", data);
         initializeParkForecast();
-
-        // capture forecasts 11am to 2pm  day + 1, 2, 3, 4, 5
-        if (data.list) {
-            for (i = 0; i < data.list.length; i++) {
-                //get forecast date in local time of city searched
-                getForecastDate = moment.unix(data.list[i].dt).utcOffset(data.city.timezone / 3600);
-                time = parseInt(getForecastDate.format("HH"));
-
-                // capturing forecast mid-day the next day or current day
-                if (time >= 11 && time < 14)  {
-                    parkForecast.forecastHumidity.push(data.list[i].main.humidity);
-                    parkForecast.forecastTemp.push(data.list[i].main.temp.toFixed(1));
-                    parkForecast.forecastDate.push(getForecastDate);
-                    parkForecast.forecastIcon.push(data.list[i].weather[0].icon);
-                }
-            }
-            console.log("in fetch forecast ", parkForecast);
+        // capture 5-day forecast
+        if (data) {
+            for (i = 0; i < 5; i++) {
+                parkForecast.forecastDate.push(moment.unix(data.daily[i].dt).utcOffset(data.timezone / 3600).format("MMM Do, YYYY"));
+                parkForecast.forecastTemp.push(data.daily[i].temp.day.toFixed(1));
+                parkForecast.forecastIcon.push(data.daily[i].weather[0].icon);
+            }           
         }
         else {
             console.log("no forecast available");
         }
-        //displayWeather();
-        //displayForecast();
+        displayForecast();
         
     })
     .catch(function(error) {
