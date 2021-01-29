@@ -2,6 +2,8 @@ var stateNameSubmitEl = document.querySelector("#state-form");
 var stateNameEl = document.querySelector("#state-name");
 var parkListEl = document.querySelector("#park-list");
 var parkHistoryEl = document.querySelector("#park-history");
+var parkheadingEl = document.getElementById("park-heading");
+
 // parkChose parkCode and parkName will be saved to localStorage
 var parkChosen = {
     parkCode: "",
@@ -74,6 +76,8 @@ var getParks = function() {
     } else {
         parks = retrievedParks;
         console.log(parks);
+        parkheadingEl.textContent = `Parks in ${parks.stateName}`;
+
         displayParks();
     }
 }
@@ -237,7 +241,6 @@ stateNameEl.onchange = function() {
     // Moved name of each element into the "value" attribute 
     // HOWEVER  the id returned for a select list is the parent ul "state-name"
     // SO we needed a jquery call to get the id of the selected li
-    var parkheadingEl = document.getElementById("park-heading");
     // The id of the selected element is the  state abbreviation
     var stateAbbreviation = $(this).find('option:selected').attr('id')
     // the value of the selected element is the state name
