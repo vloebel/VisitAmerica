@@ -1,50 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!--Import Google Icon Font -- needed for Materialize-->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-  <!-- awesome fonts -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-
-  <link rel="stylesheet" href="./assets/css/materialize.css" />
-  <link rel="stylesheet" href="./assets/css/style.css" />
-  <title>Happy Camper</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Import Google Icon Font -- needed for Materialize-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- awesome fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <!-- Compiled and minified Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css" /> 
+    <title>Happy Camper</title>
+  </head>  
 
 <body>
-  <header>
-    <h1>Happy Camper</h1>
-    <div>
-      <!-- Page Content goes here -->
-      <h2>I am a happy camper</h2>
+  <nav>
+    <div id="HC-home" style="padding-left: 1%" class="nav-wrapper green darken-4 white-text">
+      <a href="#"  class="brand-logo ">Happy Camper</a>
     </div>
-  </header>
+  </nav>
+  
+  <div class="hero ">
+    <!-- hero is in css for use on multiple pages -->
+  </div> 
+
   <main class="container">
-    <div id="park-search">
-      <h4>Search for a National Parks in a State:</h4>
-      <form id="state-form">
-        <input type="text" id="state-name">
-        <button type="submit" id="search-btn">
-          <i class="fas fa-search"></i>
-        </button>
-
-      </form>
-      <div id="history">
-        <!-- search history goes here -->
-        SEARCH HISTORY WILL BE IN THIS DIV
-        <ul id="park-history"></ul>
-      </div>
-      <div id="list">
-        <!--search list go here -->
-        <ul id="park-list"></ul>
-      </div>
-
+    <h4 >Select a State to see a list of national parks and monuments:</h4>
+    <div id="park-search" class="input-field col s6">
+      <select id="state-name">
+        <option value="blank">Choose a State</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AK">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MY">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+      </select>
     </div>
+    
+    <div class="row">
+      <div id="list" class="col s12 m6 l6">
+    <h3>Current Parks</h3>
+    <!--not used - displayed above? -->
+    <ul id="park-list"></ul>
+  </div>
+  <div id="history" class="col s12 m6 l6">
+    <h3>Recent Parks</h3>
+    <!-- search history goes here -->
+    <ul id="park-history"></ul>
+  </div>
+ 
+</div> 
+     
   </main>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -52,6 +104,12 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="./assets/js/script.js"></script>
+
+  <script>
+    $(document).ready(function(){
+     $('select').formSelect();
+   });
+  </script>
 </body>
 
 </html>
