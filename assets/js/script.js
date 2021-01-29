@@ -2,6 +2,8 @@ var stateNameSubmitEl = document.querySelector("#state-form");
 var stateNameEl = document.querySelector("#state-name");
 var parkListEl = document.querySelector("#park-list");
 var parkHistoryEl = document.querySelector("#park-history");
+var parkheadingEl = document.getElementById("park-heading");
+
 // parkChose parkCode and parkName will be saved to localStorage
 var parkChosen = {
     parkCode: "",
@@ -12,9 +14,13 @@ var parks = {
     stateName: "",
     parkName: [],
     parkCode: [],
+    latitude: [],
+    longitude: [],
     fee: [],
     feeTitle: [],
-    feeDescr: []
+    feeDescr: [],
+    imageUrl: [],
+    imageAlt: []
 };
 // saved to localStorage array of single parks and info
 var parkHistory = [];
@@ -28,7 +34,7 @@ var cleanStart = function() {
 
     parkHistory = getParkHistory();
     displayParkHistory(parkHistory);
-
+    console.log("in cleanStart refreshing park list");
     refresh(parkListEl);
 }
 
@@ -36,9 +42,6 @@ var cleanStart = function() {
 var getParkHistory = function(){
 
     var retrievedParks = localStorage.getItem("parkHistory");
-    // clear out localStorage as soon as I grab it so only one search history
-    // at a time
-    //localStorage.clear();
     retrievedParks = JSON.parse(retrievedParks);
     if (!retrievedParks) {
         retrievedParks =[];
@@ -59,6 +62,25 @@ var newPark = function(parkCode) {
     }
     return foundPark;
 }
+//saves Parks to localStorage so that the list of parks in the chosen states remains
+// while checking out individual parks in 2nd window
+var saveParks = function() {
+    localStorage.setItem("parks", JSON.stringify(parks));
+}
+
+var getParks = function() {
+    retrievedParks = localStorage.getItem("parks");
+    retrievedParks = JSON.parse(retrievedParks);
+    if (!retrievedParks) {
+        initializeParks();
+    } else {
+        parks = retrievedParks;
+        console.log(parks);
+        parkheadingEl.textContent = `Parks in ${parks.stateName}`;
+
+        displayParks();
+    }
+}
 
 // saves park chosen to parkHistory to localStorage if they aren't already there
 var saveParkHistory = function(parkCode, parkName) {
@@ -71,9 +93,13 @@ var saveParkHistory = function(parkCode, parkName) {
             stateName: parks.stateName,
             parkName: parkName,
             parkCode: parkCode,
+            latitude: "",
+            longitude: "",
             fee: "",
             feeTitle: "",
-            feeDescr: ""
+            feeDescr: "",
+            imageUrl: "",
+            imageAlt: ""  
         }
         // search through parks to find park info that matches park user chose to save to
         // parkHistory
@@ -82,6 +108,10 @@ var saveParkHistory = function(parkCode, parkName) {
                  parkSave.fee = parks.fee[i];
                  parkSave.feeTitle = parks.feeTitle[i];
                  parkSave.feeDescr = parks.feeDescr[i];
+                 parkSave.latitude = parks.latitude[i];
+                 parkSave.longitude = parks.longitude[i];
+                 parkSave.imageUrl = parks.imageUrl[i];
+                 parkSave.imageAlt = parks.imageAlt[i];
              }
         }
         console.log("parkSave = ", parkSave);
@@ -93,7 +123,7 @@ var saveParkHistory = function(parkCode, parkName) {
 
 // puts park search history on page
 var displayParkHistory = function(parkHistory) {
-
+    console.log("refreshing displayParkHistory");
     refresh(parkHistoryEl);
 
     if (parkHistory) {
@@ -105,13 +135,13 @@ var displayParkHistory = function(parkHistory) {
             parkListItem.addEventListener("click", function (event) {
                 event.preventDefault();
                 cleanStart();
+                saveParks();
                 parkChosen.parkCode = event.target.id;
                 parkChosen.parkName = event.target.textContent;
-                localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
-                window.location.href = "./index2.html";
+              localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
+              window.location.href = "./index2.html";
             })
-            parkHistoryEl.appendChild(parkListItem);
-            
+            parkHistoryEl.appendChild(parkListItem); 
         }
     }    
 };
@@ -121,7 +151,7 @@ var displayParks = function() {
     
     cleanStart();
     
-    if (parks) {
+      if (parks) {
 
         for (i =0; i < parks.parkName.length; i++) {
             var parkListItem = document.createElement("li");
@@ -130,6 +160,7 @@ var displayParks = function() {
             
             parkListItem.addEventListener("click", function (event) {
                 event.preventDefault();
+                saveParks();
                 parkChosen.parkCode = event.target.id;
                 parkChosen.parkName = event.target.textContent;
                 saveParkHistory(parkChosen.parkCode, parkChosen.parkName);
@@ -139,11 +170,25 @@ var displayParks = function() {
             
             parkListEl.appendChild(parkListItem);
         }
+        
     }    
 // end of displayParks function    
 };
-
+var initializeParks = function() {
+    parks.stateName ="";
+    parks.parkName.length=0;
+    parks.parkCode.length=0;
+    parks.latitude.length=0;
+    parks.longitude.length=0;
+    parks.fee.length=0;
+    parks.feeTitle.length=0;
+    parks.feeDescr.length=0;
+    parks.imageUrl.length=0;
+    parks.imageAlt.length=0;    
+}
 var fetchParks = function (stateName) {
+
+    initializeParks();
 
     // gets national park information
     var apiParks = "https://developer.nps.gov/api/v1/parks?stateCode=" + stateName + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
@@ -156,12 +201,18 @@ var fetchParks = function (stateName) {
         for (i = 0; i < data.data.length; i++) {
             parks.parkName[i] = data.data[i].fullName;
             parks.parkCode[i] = data.data[i].parkCode;
-            if (data.data.entranceFees) {
+            parks.latitude[i] = data.data[i].latitude;
+            parks.longitude[i] = data.data[i].longitude;
+            if (data.data[i].entranceFees[0]) {
                 parks.fee[i] = "$" + data.data[i].entranceFees[0].cost;
                 parks.feeTitle[i] = data.data[i].entranceFees[0].title;
                 parks.feeDescr[i] = data.data[i].entranceFees[0].description;
             } else {
                 parks.fee[i] = "unavailable;"
+            }
+            if (data.data[i].images[0]) {
+                parks.imageUrl[i] = data.data[i].images[0].url;
+                parks.imageAlt[i] = data.data[i].images[0].altText;
             }
 
         }
@@ -179,9 +230,25 @@ var fetchParks = function (stateName) {
 // end of fetchParks function
 };
 
-
 cleanStart();
+getParks();
 
 stateNameEl.onchange = function() {
-  fetchParks(stateNameEl.value);
+    cleanStart();
+    ////////////////////////////////////////////////////////////
+    //Vicky 1/29 12:00pm - add parkname to the heading above list of parks//
+    // Moved the abbreviation of each state into its "id" 
+    // Moved name of each element into the "value" attribute 
+    // HOWEVER  the id returned for a select list is the parent ul "state-name"
+    // SO we needed a jquery call to get the id of the selected li
+    // The id of the selected element is the  state abbreviation
+    var stateAbbreviation = $(this).find('option:selected').attr('id')
+    // the value of the selected element is the state name
+    var stateNameHeading = (stateNameEl.value);
+    console.log(`stateAbbreviation: ${stateAbbreviation} stateNameHeading: ${stateNameHeading}`)
+    parkheadingEl.textContent = `Parks in ${stateNameHeading}`;
+    /////////////////////////////////////////////////////////
+    // removed:
+    // fetchParks(stateNameEl.value);
+    fetchParks(stateAbbreviation);
 }

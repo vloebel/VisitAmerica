@@ -20,15 +20,23 @@
 <body>
   <nav>
     <div class="nav-wrapper green darken-4 white-text">
-      <a href="#"  class="brand-logo ">Happy Camper</a>
-      
+      <a href="#" class="brand-logo ">Happy Camper</a>
+
     </div>
   </nav>
+<<<<<<< HEAD
   
   <!-- <div class="hero"> -->
     <!-- hero is in css for use on multiple pages -->
     <!-- <img class="responsive-img" src="./assets/img/AngelsLanding-theraja.jpg"> -->
   <!-- </div>  -->
+=======
+
+  <div class="hero">
+    <!-- hero is in css for use on multiple pages -->
+    <!-- <img class="responsive-img" src="./assets/img/AngelsLanding-theraja.jpg"> -->
+  </div>
+>>>>>>> 3548e1a2ba64ca29b9ac427b28ee1ddcebffed29
 
   <header>
 
@@ -43,48 +51,90 @@
         <h2 id="campground-info">Campground Information</h2>
       </div>
       <div class="col s6">
+        <h5>CAMPGROUNDS</h5>
         <ul id="campground-list">
-      
-        <!-- append campground info here -->
-        <h5>CAMPGROUND LIST WILL BE GENERATED HERE</h5>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil quos doloremque dolorum tempore beatae debitis vero? Quae consequatur nisi laudantium architecto est? Ipsam quam laudantium tenetur dicta quasi explicabo odio.</p>
-      </ul>
-    </div>
-      <div class="col s6" id="visitor-center-info">
-        <!-- append visitor center -->
-        <h5>VISITOR CENTER INFO DISPLAYED HERE</h5>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur repellat nisi soluta possimus maiores, tempore placeat beatae nemo nostrum voluptatem doloremque earum recusandae aut, veniam non nesciunt libero consequuntur laborum.</p>
+          <!-- append campground info here -->
+        </ul>
       </div>
-    </div>
-    <!-- <h2>Campground Information</h2> -->
-    <!-- <div id="campground-info"> -->
-      <!-- <ul id="campground-list"-->
-      
-        <!-- append campground info here -->
-        <!-- CAMPGROUND LIST WILL BE GENERATED HERE
-      </ul>
-     </div> -->
-     <!-- <div id="visitor-center-info"-->
-      
-      
+      <div class="col s6" id="visitor-center">
         <!-- append visitor center -->
-        <!-- VISITOR CENTER INFO DISPLAYED HERE -->
+        <h5>VISITOR CENTER</h5>
       
-     </div>
-     <div id="five-day-forecast">
-
-          
-      <!-- append weather cards -->
-      WEATHER CARDS
-      - use ID naming convention:
-       card0, card1, card2, card3, card4
-     
+      </div>
     </div>
     <div>
       <button type="button" id="return-to-search">Return to Search</button>
     </div>
+  
+    <div id="five-day-forecast">
+      <h3> Weather Forecast hardcoded with sample data </h3>
 
-    
+      <div class="row">
+        <!-- Card 0 -->
+        <div class="col s12 m4 l2">
+          <div id="card0" class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <p class="card-title" id="card-date-0"></p>
+              <img id="card-icon-0" alt="weather icon">
+              <p class="card-info mb-2 ">Temp: <span id="card-temp-0"></span> &#8457</p>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 1 -->
+        <div class="col s12 m4 l2">
+          <div id="card1" class="card blue-grey darken-1">
+            <div class="card-content white-text">
+
+              <p class="card-title" id="card-date-1"></p>
+              <img id="card-icon-1" alt="weather icon">
+              <p class="card-info mb-2 ">Temp: <span id="card-temp-1"></span> &#8457</p>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col s12 m4 l2">
+          <div id="card2" class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <p class="card-title" id="card-date-2"></p>
+              <img id="card-icon-2" alt="weather icon">
+              <p class="card-info mb-2 ">Temp: <span id="card-temp-2"></span> &#8457</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col s12 m4 l2">
+          <div id="card3" class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <p class="card-title" id="card-date-3"></p>
+              <img id="card-icon-3" alt="weather icon">
+              <p class="card-info mb-2 ">Temp: <span id="card-temp-3"></span> &#8457</p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Card 4 -->
+        <div class="col s12 m4 l2">
+          <div id="card4" class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <p class="card-title" id="card-date-4"></p>
+              <img id="card-icon-4" alt="weather icon">
+              <p class="card-info mb-2 ">Temp: <span id="card-temp-4"></span> &#8457</p>
+
+            </div>
+          </div>
+        </div>
+
+      </div> <!--end of row-->
+    </div> <!-- 5-day-forecast-->
+        <!-- Vicky's Test Weather Cards 1/28/21 -->
+        <!-- /////////////////////////////////// -->
+
   </main>
 
   <!-- moment.js -->
