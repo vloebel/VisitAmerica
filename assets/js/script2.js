@@ -1,23 +1,31 @@
 // script for national park & monument information
+var parkChosenEl = document.querySelector("#park-chosen");
 var returnToSearchBtnEl = document.querySelector("#return-to-search");
 var campgroundListEl = document.querySelector("#campground-list");
 var visitorCenterEl = document.querySelector("#visitor-center");
 
-var parkCode = "";
+// parkChosen by user pulled from localStorage
+var parkChosen = {
+    parkCode: "",
+    parkName: ""
+};
+
+// campground array
 var campgrounds = [];
+// visitorCenter information
 var visitorCenter = {
     name: "",
     description: "",
     imageUrl: "",
+    imageAlt: "",
     city: "",
     state: ""
 }; 
-
 // forecasted park weather information
 var parkForecast = {
-    parkDate: [],
-    parkTemp: [],
-    parkHumidity: [],
+    forecastDate: [],
+    forecastTemp: [],
+    forecastHumidity: [],
     forecastIcon: []
 };
 
@@ -41,7 +49,6 @@ var displayCampgrounds = function() {
 };
 
 var displayVisitorCenter = function() {
-    console.log("in displayVisitorCenter ", visitorCenter);
     if (visitorCenter) {
         var visitorCenterName = document.createElement("h4");
         visitorCenterName.textContent = visitorCenter.name;
@@ -63,33 +70,6 @@ var displayVisitorCenter = function() {
     } 
 // end of displayVisitorCenter function    
 };
-var displayVisitorCentersb = function() {
-    console.log("in displayVisitorCenters ", visitorCenters);
-    if (visitorCenters) {
-        for (i =0; i < visitorCenters.length; i++) {
-
-            var visitorCenterName = document.createElement("h4");
-            visitorCenterName.textContent = visitorCenters[i].name;
-            visitorCenterName.id = "visitor-center-name";
-            var visitorCenterInfo = document.createElement("textarea");
-            visitorCenterInfo.textContent = visitorCenters[i].description;
-            visitorCenterInfo.id = "visitor-center-info";
-            var visitorCenterImage = document.createElement("img");
-            visitorCenterImage.id = "visitor-center-image";
-            visitorCenterImage.setAttribute("src", visitorCenters[i].imageUrl);
-            
-            visitorCentersEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
-        }
-    // let user know there were no campgrounds for this park
-    } else {
-        var visitorCenterInfo = document.createElement("textarea");
-        visitorCenterInfo.textContent = "There are no visitor centers for this park";
-
-        visitorCentersEl.appendChild(visitorCenterInfo);
-    } 
-// end of displayVisitorCentersb function    
-};
-
 
 var fetchCampgrounds = function(parkCode) {
     // gets campgrounds from a particular national park
@@ -114,7 +94,7 @@ var fetchCampgrounds = function(parkCode) {
 };
 
 var fetchVisitorCenter = function(parkCode) {
-    // gets national park information
+    // gets national park visitor center
     var apiVisitorCenters = "https://developer.nps.gov/api/v1/visitorcenters?q=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
     fetch(apiVisitorCenters).then(function (response) {
         return response.json();
@@ -122,20 +102,19 @@ var fetchVisitorCenter = function(parkCode) {
     .then(function(data) {
         console.log(data.data);
         // take first visitor center info available
-        if (data.data) {
-                visitorCenter.name = data.data[0].name;
-                visitorCenter.description = data.data[0].description;
-                
-                if (data.data[0].images[0]) {
-                    visitorCenter.imageUrl = data.data[0].images[0].url;
-                }
-                visitorCenter.city = data.data[0].addresses[0].city; 
-                //.split(' ').join('');
-                visitorCenter.state = data.data[0].addresses[0].stateCode;
+        if (data.data[0]) {
+            visitorCenter.name = data.data[0].name;
+            visitorCenter.description = data.data[0].description;
+                    
+            if (data.data[0].images[0]) {
+                visitorCenter.imageUrl = data.data[0].images[0].url;
+                visitorCenter.imageAlt = data.data[0].images[0].altText;
+            }
+            visitorCenter.city = data.data[0].addresses[0].city; 
+            visitorCenter.state = data.data[0].addresses[0].stateCode;
         }
-        console.log(visitorCenter);
-        // fetchForecast(visitorCenter.city, visitorCenter.state);
-
+        console.log("before fetchForecast ", visitorCenter);
+        fetchForecast(visitorCenter.city, visitorCenter.state);
         displayVisitorCenter();
         
     })
@@ -145,60 +124,20 @@ var fetchVisitorCenter = function(parkCode) {
     });
 // end of fetchVisitorCenter function
 };
-var fetchVisitorCentersb = function(parkCode) {
-    // gets national park information
-    var apiVisitorCenters = "https://developer.nps.gov/api/v1/visitorcenters?parkCode=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
-    fetch(apiVisitorCenters).then(function (response) {
-        return response.json();
-    })
-    .then(function(data) {
-        console.log(data.data);
-        if (data.data) {
-            for (i = 0; i < data.data.length; i++) {  
-                var visitorCenter = {
-                    name: "",
-                    description: "",
-                    imageUrl: "",
-                    latitude: 0,
-                    longitude: 0
-                };       
-                visitorCenter.name = data.data[i].name;
-                visitorCenter.description = data.data[i].description;
-                
-                if (data.data[i].images[0]) {
-                    visitorCenter.imageUrl = data.data[i].images[0].url;
-                }
-                
-                visitorCenter.latitude = data.data[i].latitude;
-                visitorCenter.longitude = data.data[i].longitude;
-                visitorCenters.push(visitorCenter);
-            }
-        }
-        displayVisitorCenters();
-
-        
-    })
-    .catch(function(error) {
-        console.error(error);
-        alert("Problem finding visitor centers");
-    });
-// end of fetchVisitorCentersb function
-};
 
 var backToSearch = function(event) {
     event.preventDefault();
-    // console.log(event.target);
     window.location.href = "./index.html";
 }
 
-var getParkCode = function() {
-    parkCode = localStorage.getItem("parkCode");
-    parkCode = JSON.parse(parkCode);
-
-    fetchCampgrounds(parkCode);
-    fetchVisitorCenter(parkCode);
+var getParkChosen = function() {
+    parkChosen = localStorage.getItem("parkChosen");
+    parkChosen = JSON.parse(parkChosen);
+    parkChosenEl.textContent = parkChosen.parkName;
+    fetchCampgrounds(parkChosen.parkCode);
+    fetchVisitorCenter(parkChosen.parkCode);
 };
-/*
+
 var initializeParkForecast = function() {
     parkForecast.forecastDate.length = 0;
     parkForecast.forecastTemp.length = 0;
@@ -215,22 +154,27 @@ var fetchForecast = function (city,state) {
     .then(function(data) {
         console.log("in fetchForecast", data);
 
-        //initializeParkForecast();
+        initializeParkForecast();
 
         // capture forecasts 11am to 2pm  day + 1, 2, 3, 4, 5
-        for (i = 0; i < data.list.length; i++) {
-            //get forecast date in local time of city searched
-            getForecastDate = moment.unix(data.list[i].dt).utcOffset(data.city.timezone / 3600);
-            day = parseInt(getForecastDate.format("DD")) - parseInt(cityWeather.date.format("DD"));
-            time = parseInt(getForecastDate.format("HH"));
+        if (data.list) {
+            for (i = 0; i < data.list.length; i++) {
+                //get forecast date in local time of city searched
+                getForecastDate = moment.unix(data.list[i].dt).utcOffset(data.city.timezone / 3600);
+                time = parseInt(getForecastDate.format("HH"));
 
-            // capturing forecast mid-day the next day or current day
-            if ((day>0 && time >= 11 && time < 14) || (cityForecast.forecastTemp.length === 4 && i === (data.list.length-1))) {
-                parkForecast.forecastHumidity.push(data.list[i].main.humidity);
-                parkForecast.forecastTemp.push(data.list[i].main.temp.toFixed(1));
-                parkForecast.forecastDate.push(getForecastDate);
-                parkForecast.forecastIcon.push(data.list[i].weather[0].icon);
+                // capturing forecast mid-day the next day or current day
+                if (time >= 11 && time < 14)  {
+                    parkForecast.forecastHumidity.push(data.list[i].main.humidity);
+                    parkForecast.forecastTemp.push(data.list[i].main.temp.toFixed(1));
+                    parkForecast.forecastDate.push(getForecastDate);
+                    parkForecast.forecastIcon.push(data.list[i].weather[0].icon);
+                }
             }
+            console.log("in fetch forecast ", parkForecast);
+        }
+        else {
+            console.log("no forecast available");
         }
         //displayWeather();
         //displayForecast();
@@ -242,9 +186,7 @@ var fetchForecast = function (city,state) {
     });
 // end of fetchForecast function
 };
-*/
 
-
-getParkCode();
+getParkChosen();
 
 returnToSearchBtnEl.addEventListener("click", backToSearch);
