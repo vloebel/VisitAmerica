@@ -50,3 +50,8 @@ h1, h2 {
 #park-history {
   color: orange;
 }
+
+#park-list li:hover {
+  color: grey;
+}
+
