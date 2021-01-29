@@ -11,10 +11,8 @@
   <!-- awesome fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 
-  <!-- Compiled and minified CSS -->
+  <!-- Materialze compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-  <!-- <link rel="stylesheet" href="./assets/css/materialize.css" /> -->
   <link rel="stylesheet" href="./assets/css/style.css" />
   <title>Park Information</title>
 </head>
@@ -33,7 +31,8 @@
   </div> 
 
   <header>
-    <h1 id="park-chosen">GENERATED IN JS - SELECTED PARK name</h1>
+
+    <h1 id="park-chosen"></h1>
     <!-- possibly include a picture or quote if we can grab one from somewhere -->
   </header>
   <main>
@@ -73,16 +72,24 @@
       
      </div>
      <div id="five-day-forecast">
+
           
-        <!-- append weather cards -->
-        WEATHER CARDS
-        - use ID naming convention:
-        card0, card1, card2, card3, card4
+      <!-- append weather cards -->
+      WEATHER CARDS
+      - use ID naming convention:
+       card0, card1, card2, card3, card4
      
-     </div>
+    </div>
+    <div>
+      <button type="button" id="return-to-search">Return to Search</button>
+    </div>
 
     
   </main>
+
+  <!-- moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
