@@ -5,15 +5,18 @@ var parkHistoryEl = document.querySelector("#park-history");
 // parkChose parkCode and parkName will be saved to localStorage
 var parkChosen = {
     parkCode: "",
-    parkName: ""
+    parkName: "",
 };
 // parks contains info on the parks from a state
 var parks = {
     stateName: "",
     parkName: [],
-    parkCode: []
+    parkCode: [],
+    fee: [],
+    feeTitle: [],
+    feeDescr: []
 };
-// saved to localStorage
+// saved to localStorage array of single parks and info
 var parkHistory = [];
 
 // clears out HTML in element with particular id
@@ -33,6 +36,9 @@ var cleanStart = function() {
 var getParkHistory = function(){
 
     var retrievedParks = localStorage.getItem("parkHistory");
+    // clear out localStorage as soon as I grab it so only one search history
+    // at a time
+    //localStorage.clear();
     retrievedParks = JSON.parse(retrievedParks);
     if (!retrievedParks) {
         retrievedParks =[];
@@ -40,23 +46,49 @@ var getParkHistory = function(){
     return retrievedParks; 
 };
 
-// saves new parks to parkHistory to localStorage if they aren't already there
-var saveParkHistory = function() {
-
+// checks to see if the park is already in parkHistory
+var newPark = function(parkCode) {
     var foundPark = false;
-    // search for parks to see if already in parks array
     if (parkHistory) {
         for (i = 0; i < parkHistory.length; i++) {
-            if ((parkHistory[i].stateName === parks.stateName )) {
+            if (parkHistory[i].parkCode === parkChosen.parkCode) {
+                console.log("park match");
                 foundPark = true;
             }
         }
     }
-    // if park is not in parkHistory array then save to localStorage
-    if (!foundPark && parks.stateName) {
-        parkHistory.push(parks);
+    return foundPark;
+}
+
+// saves park chosen to parkHistory to localStorage if they aren't already there
+var saveParkHistory = function(parkCode, parkName) {
+    // checks if park chosen already in parkHistory
+   found = newPark(parkCode);
+   
+   // if park is not in parkHistory array then save to localStorage
+   if (!found) {
+        var parkSave = {
+            stateName: parks.stateName,
+            parkName: parkName,
+            parkCode: parkCode,
+            fee: "",
+            feeTitle: "",
+            feeDescr: ""
+        }
+        // search through parks to find park info that matches park user chose to save to
+        // parkHistory
+        for (i = 0; i < parks.parkCode.length; i++) {
+            if (parkCode === parks.parkCode[i] && (!found)) {
+                 parkSave.fee = parks.fee[i];
+                 parkSave.feeTitle = parks.feeTitle[i];
+                 parkSave.feeDescr = parks.feeDescr[i];
+             }
+        }
+        console.log("parkSave = ", parkSave);
+        parkHistory.push(parkSave);
         localStorage.setItem("parkHistory", JSON.stringify(parkHistory));
     } 
+// end of saveParkHistory
 };
 
 // puts park search history on page
@@ -66,24 +98,20 @@ var displayParkHistory = function(parkHistory) {
 
     if (parkHistory) {
         for (i =0; i < parkHistory.length; i++) {
-            for (j = 0; j < parkHistory[i].parkName.length; j++) {
-                var parkListItem = document.createElement("li");
-                parkListItem.id = parkHistory[i].parkCode[j];
-                parkListItem.textContent = parkHistory[i].parkName[j];
-                // adds event listeners on each list item
-                parkListItem.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    cleanStart();
-                    parkChosen.parkCode = event.target.id;
-                    parkChosen.parkName = event.target.textContent;
-                    //console.log("in displayParkHistory ", parkChosen);
-                    localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
-
-                    //fetchCampgrounds(event.target.id);
-                    window.location.href = "./index2.html";
-                })
-                parkHistoryEl.appendChild(parkListItem);
-            }
+            var parkListItem = document.createElement("li");
+            parkListItem.id = parkHistory[i].parkCode;
+            parkListItem.textContent = parkHistory[i].parkName;
+            // adds event listeners on each list item
+            parkListItem.addEventListener("click", function (event) {
+                event.preventDefault();
+                cleanStart();
+                parkChosen.parkCode = event.target.id;
+                parkChosen.parkName = event.target.textContent;
+                localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
+                window.location.href = "./index2.html";
+            })
+            parkHistoryEl.appendChild(parkListItem);
+            
         }
     }    
 };
@@ -95,7 +123,6 @@ var displayParks = function() {
     
     if (parks) {
 
-        // console.log("in displayParks", parks.parkName.length);
         for (i =0; i < parks.parkName.length; i++) {
             var parkListItem = document.createElement("li");
             parkListItem.id =  parks.parkCode[i];
@@ -103,12 +130,11 @@ var displayParks = function() {
             
             parkListItem.addEventListener("click", function (event) {
                 event.preventDefault();
-                parkCode = event.target.id;
-                // console.log("In displayParks ", parkCode);
-                localStorage.setItem("parkCode", JSON.stringify(parkCode));
+                parkChosen.parkCode = event.target.id;
+                parkChosen.parkName = event.target.textContent;
+                saveParkHistory(parkChosen.parkCode, parkChosen.parkName);
+                localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
                 window.location.href = "./index2.html";
-                // put fetch in 2nd javascript
-                //fetchCampgrounds(event.target.id);
             })
             
             parkListEl.appendChild(parkListItem);
@@ -117,10 +143,7 @@ var displayParks = function() {
 // end of displayParks function    
 };
 
-
 var fetchParks = function (stateName) {
-    // removes prior search history from localStorage
-    //storage.clear();
 
     // gets national park information
     var apiParks = "https://developer.nps.gov/api/v1/parks?stateCode=" + stateName + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
@@ -128,16 +151,25 @@ var fetchParks = function (stateName) {
         return response.json();
     })
     .then(function(data) {
-        console.log(data.data);
+        console.log("the data from Natl Park API", data.data);
         parks.stateName = stateName;
         for (i = 0; i < data.data.length; i++) {
             parks.parkName[i] = data.data[i].fullName;
             parks.parkCode[i] = data.data[i].parkCode;
+            if (data.data.entranceFees) {
+                parks.fee[i] = "$" + data.data[i].entranceFees[0].cost;
+                parks.feeTitle[i] = data.data[i].entranceFees[0].title;
+                parks.feeDescr[i] = data.data[i].entranceFees[0].description;
+            } else {
+                parks.fee[i] = "unavailable;"
+            }
+
         }
+        console.log("checking on parks ", parks);
 
         displayParks();
 
-        saveParkHistory(parks);
+        // saveParkHistory(parks);
         
     })
     .catch(function(error) {
@@ -147,17 +179,6 @@ var fetchParks = function (stateName) {
 // end of fetchParks function
 };
 
-var getState = function (event) {
-
-    event.preventDefault();
-    
-    // cleanStart();
-
-    var stateName = stateNameEl.value;
-
-    fetchParks(stateName);
-
-}
 
 cleanStart();
 

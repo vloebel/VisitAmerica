@@ -36,3 +36,7 @@ h1, h2 {
   height: 50px;
   width: 50px;
 }
+
+#park-history {
+  color: orange;
+}

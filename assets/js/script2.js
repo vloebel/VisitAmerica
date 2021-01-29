@@ -9,6 +9,7 @@ var parkChosen = {
     parkCode: "",
     parkName: ""
 };
+
 // campground array
 var campgrounds = [];
 // visitorCenter information
@@ -93,13 +94,13 @@ var fetchCampgrounds = function(parkCode) {
 };
 
 var fetchVisitorCenter = function(parkCode) {
-    // gets national park information
+    // gets national park visitor center
     var apiVisitorCenters = "https://developer.nps.gov/api/v1/visitorcenters?q=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
     fetch(apiVisitorCenters).then(function (response) {
         return response.json();
     })
     .then(function(data) {
-        //console.log(data.data);
+        console.log(data.data);
         // take first visitor center info available
         if (data.data[0]) {
             visitorCenter.name = data.data[0].name;
@@ -112,6 +113,7 @@ var fetchVisitorCenter = function(parkCode) {
             visitorCenter.city = data.data[0].addresses[0].city; 
             visitorCenter.state = data.data[0].addresses[0].stateCode;
         }
+        console.log("before fetchForecast ", visitorCenter);
         fetchForecast(visitorCenter.city, visitorCenter.state);
         displayVisitorCenter();
         
@@ -155,7 +157,7 @@ var fetchForecast = function (city,state) {
         initializeParkForecast();
 
         // capture forecasts 11am to 2pm  day + 1, 2, 3, 4, 5
-        if (data) {
+        if (data.list) {
             for (i = 0; i < data.list.length; i++) {
                 //get forecast date in local time of city searched
                 getForecastDate = moment.unix(data.list[i].dt).utcOffset(data.city.timezone / 3600);
