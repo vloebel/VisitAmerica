@@ -145,6 +145,35 @@ var initializeParkForecast = function() {
     parkForecast.forecastIcon.length = 0;
 };
 
+var displayForecast = function () {
+
+    refresh(forecastHeaderEl);
+    refresh(weatherForecastEl);
+
+    // displays forecasted weather elements on page
+    for (i = 0; i < parkForecast.forecastDate.length; i++) {
+        var cardContainer = document.createElement("div");
+        cardContainer.setAttribute("class", "card mr-2");
+        var cardBody = document.createElement("div");
+        cardBody.setAttribute("class", "card-body");
+        var cardTitle = document.createElement("h6");
+        cardTitle.textContent = parkForecast.forecastDate[i].format("MM/DD/YYYY");
+
+        cardTitle.setAttribute("class", "card-title");
+        var forecastIcon = document.createElement("img");
+        forecastIcon.src = "http://openweathermap.org/img/wn/" + parkForecast.forecastIcon[i] + "@2x.png";
+        var forecastTemp = document.createElement("p")
+        forecastTemp.textContent = "Temp: " + parkForecast.forecastTemp[i] + " ℉";
+        var forecastHumidity = document.createElement("p");
+        forecastHumidity.textContent = "Humidity: " + parkForecast.forecastHumidity[i] + "%";
+
+        cardBody.append(cardTitle, forecastIcon, forecastTemp, forecastHumidity);
+        cardContainer.appendChild(cardBody);
+        weatherForecastEl.appendChild(cardContainer);
+    }
+    // end of displayForecast Function
+}
+
 var fetchForecast = function (city,state) {
     // gets 5-day forecast
     var apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + state + ",US&units=imperial&appid=36badb05283e47c914843551c2046d2d";
@@ -176,7 +205,6 @@ var fetchForecast = function (city,state) {
         else {
             console.log("no forecast available");
         }
-        //displayWeather();
         //displayForecast();
         
     })
