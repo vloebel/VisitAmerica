@@ -134,8 +134,8 @@ var displayParkHistory = function(parkHistory) {
                 saveParks();
                 parkChosen.parkCode = event.target.id;
                 parkChosen.parkName = event.target.textContent;
-                localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
-                window.location.href = "./index2.html";
+              localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
+              window.location.href = "./index2.html";
             })
             parkHistoryEl.appendChild(parkListItem); 
         }
@@ -147,7 +147,7 @@ var displayParks = function() {
     
     cleanStart();
     
-    if (parks) {
+      if (parks) {
 
         for (i =0; i < parks.parkName.length; i++) {
             var parkListItem = document.createElement("li");
@@ -166,6 +166,7 @@ var displayParks = function() {
             
             parkListEl.appendChild(parkListItem);
         }
+        
     }    
 // end of displayParks function    
 };
@@ -230,5 +231,21 @@ getParks();
 
 stateNameEl.onchange = function() {
     cleanStart();
-    fetchParks(stateNameEl.value);
+    ////////////////////////////////////////////////////////////
+    //Vicky 1/29 12:00pm - add parkname to the heading above list of parks//
+    // Moved the abbreviation of each state into its "id" 
+    // Moved name of each element into the "value" attribute 
+    // HOWEVER  the id returned for a select list is the parent ul "state-name"
+    // SO we needed a jquery call to get the id of the selected li
+    var parkheadingEl = document.getElementById("park-heading");
+    // The id of the selected element is the  state abbreviation
+    var stateAbbreviation = $(this).find('option:selected').attr('id')
+    // the value of the selected element is the state name
+    var stateNameHeading = (stateNameEl.value);
+    console.log(`stateAbbreviation: ${stateAbbreviation} stateNameHeading: ${stateNameHeading}`)
+    parkheadingEl.textContent = `Parks in ${stateNameHeading}`;
+    /////////////////////////////////////////////////////////
+    // removed:
+    // fetchParks(stateNameEl.value);
+    fetchParks(stateAbbreviation);
 }
