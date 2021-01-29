@@ -2,7 +2,7 @@ var stateNameSubmitEl = document.querySelector("#state-form");
 var stateNameEl = document.querySelector("#state-name");
 var parkListEl = document.querySelector("#park-list");
 var parkHistoryEl = document.querySelector("#park-history");
-var parkheadingEl = document.getElementById("park-heading");
+var parkHeadingEl = document.getElementById("park-heading");
 
 // parkChose parkCode and parkName will be saved to localStorage
 var parkChosen = {
@@ -34,7 +34,6 @@ var cleanStart = function() {
 
     parkHistory = getParkHistory();
     displayParkHistory(parkHistory);
-    console.log("in cleanStart refreshing park list");
     refresh(parkListEl);
 }
 
@@ -49,13 +48,21 @@ var getParkHistory = function(){
     return retrievedParks; 
 };
 
+getParkFullName = function() {
+    var retrievedParkFullName = localStorage.getItem("parkFullName");
+    retrievedParkFullName = JSON.parse(retrievedParkFullName);
+    if (!retrievedParkFullName) {
+        retrievedParkFullName ="";
+    };
+    return retrievedParkFullName; 
+}
+
 // checks to see if the park is already in parkHistory
 var newPark = function(parkCode) {
     var foundPark = false;
     if (parkHistory) {
         for (i = 0; i < parkHistory.length; i++) {
             if (parkHistory[i].parkCode === parkChosen.parkCode) {
-                console.log("park match");
                 foundPark = true;
             }
         }
@@ -71,12 +78,14 @@ var saveParks = function() {
 var getParks = function() {
     retrievedParks = localStorage.getItem("parks");
     retrievedParks = JSON.parse(retrievedParks);
+    var parkFullName = getParkFullName();
+
     if (!retrievedParks) {
         initializeParks();
     } else {
         parks = retrievedParks;
-        console.log(parks);
-        parkheadingEl.textContent = `Parks in ${parks.stateName}`;
+
+        parkHeadingEl.textContent = `Parks in ${parkFullName}`;
 
         displayParks();
     }
@@ -114,7 +123,6 @@ var saveParkHistory = function(parkCode, parkName) {
                  parkSave.imageAlt = parks.imageAlt[i];
              }
         }
-        console.log("parkSave = ", parkSave);
         parkHistory.push(parkSave);
         localStorage.setItem("parkHistory", JSON.stringify(parkHistory));
     } 
@@ -123,7 +131,6 @@ var saveParkHistory = function(parkCode, parkName) {
 
 // puts park search history on page
 var displayParkHistory = function(parkHistory) {
-    console.log("refreshing displayParkHistory");
     refresh(parkHistoryEl);
 
     if (parkHistory) {
@@ -186,6 +193,13 @@ var initializeParks = function() {
     parks.imageUrl.length=0;
     parks.imageAlt.length=0;    
 }
+
+// some of the names of parks have random rumbers and symbols attached
+// so these were removed to make the name readable
+var fixParkName = function(parkName) {
+    fixedParkName = parkName.replace(/[^a-zA-Z ]/g, "");
+    return fixedParkName;
+}
 var fetchParks = function (stateName) {
 
     initializeParks();
@@ -199,7 +213,8 @@ var fetchParks = function (stateName) {
         console.log("the data from Natl Park API", data.data);
         parks.stateName = stateName;
         for (i = 0; i < data.data.length; i++) {
-            parks.parkName[i] = data.data[i].fullName;
+            var fullNameAlphaOnly = fixParkName(data.data[i].fullName);
+            parks.parkName[i] = fullNameAlphaOnly;
             parks.parkCode[i] = data.data[i].parkCode;
             parks.latitude[i] = data.data[i].latitude;
             parks.longitude[i] = data.data[i].longitude;
@@ -214,14 +229,8 @@ var fetchParks = function (stateName) {
                 parks.imageUrl[i] = data.data[i].images[0].url;
                 parks.imageAlt[i] = data.data[i].images[0].altText;
             }
-
         }
-        console.log("checking on parks ", parks);
-
-        displayParks();
-
-        // saveParkHistory(parks);
-        
+        displayParks();        
     })
     .catch(function(error) {
         console.error(error);
@@ -235,20 +244,17 @@ getParks();
 
 stateNameEl.onchange = function() {
     cleanStart();
-    ////////////////////////////////////////////////////////////
-    //Vicky 1/29 12:00pm - add parkname to the heading above list of parks//
-    // Moved the abbreviation of each state into its "id" 
-    // Moved name of each element into the "value" attribute 
-    // HOWEVER  the id returned for a select list is the parent ul "state-name"
-    // SO we needed a jquery call to get the id of the selected li
-    // The id of the selected element is the  state abbreviation
+    
+    // captures the full state name from the html code drop down menu
+    // full state name to be used to in a header on the page rather than state abbreviation
     var stateAbbreviation = $(this).find('option:selected').attr('id')
     // the value of the selected element is the state name
     var stateNameHeading = (stateNameEl.value);
-    console.log(`stateAbbreviation: ${stateAbbreviation} stateNameHeading: ${stateNameHeading}`)
-    parkheadingEl.textContent = `Parks in ${stateNameHeading}`;
-    /////////////////////////////////////////////////////////
-    // removed:
-    // fetchParks(stateNameEl.value);
+    parkHeadingEl.textContent = `Parks in ${stateNameHeading}`;
+    // puts the full park name in localStorage so that when go to new window to
+    // search a park and return to main page the full state name can still be displayed
+    localStorage.setItem("parkFullName", JSON.stringify(stateNameHeading));
+
     fetchParks(stateAbbreviation);
+
 }
