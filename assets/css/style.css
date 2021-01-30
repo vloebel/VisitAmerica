@@ -23,6 +23,10 @@
 }
 /* licensed photo "Flowers on UNESCO" copyright theraja  */
 
+nav a{
+  padding: 1%,0;
+}
+
 h1, h2 {
   text-align:center;
 }
@@ -50,3 +54,16 @@ h1, h2 {
   color: darkolivegreen;
   cursor: pointer;
 }
+
+/* stephanie added styling 1.30.2021 - to center image */
+#park-chosen-container {
+  display: block;
+  text-align: center;
+}
+
+/* stephanie added styling 1.30.2021 - styling of park image appearing after park name */
+#park-chosen-container img {
+  height: 300px;
+  padding: 10px;
+}
+
