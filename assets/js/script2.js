@@ -3,6 +3,11 @@ var parkChosenEl = document.querySelector("#park-chosen");
 var returnToSearchBtnEl = document.querySelector("#return-to-search");
 var campgroundListEl = document.querySelector("#campground-list");
 var visitorCenterEl = document.querySelector("#visitor-center");
+// new 1/29 visitorCenterErrorEl used to hide extra heading if we find a visitor center
+var visitorCenterErrorEl = document.querySelector("#visitor-center-error");
+// New 1/29 - fiveDayEl used to show/hide weather display
+var fiveDayEl = document.querySelector("#five-day-forecast");
+var noWeatherEl = document.querySelector("#no-weather-forecast");
 
 // park info pulled from localStorage
 var park = {
@@ -45,14 +50,23 @@ var displayCampgrounds = function() {
     // let user know there were no campgrounds for this park
     } else {
         var campgroundListItem = document.createElement("li");
-        campgroundListItem.textContent = "There are no campgrounds for this park";
+        campgroundListItem.textContent = "Sorry, no campground information available";
         campgroundListEl.appendChild(campgroundListItem);
     } 
 // end of displayCampgrounds function    
 };
 
 var displayVisitorCenter = function() {
-    if (visitorCenter) {
+  if (visitorCenter) {
+      // vl 1/29: tried to write directly to the h4 in the index2 file but
+      // I was stepping on something - so I'm just going to hide it if
+      // we are displaying this visitor center. Keep in mind the "h4" element
+      // is hardcoded here so if we change the other ones it won't match
+    visitorCenterErrorEl.style.display = "none";
+    // vl: I'm really stuck here - not sure I understand the code and
+    // no matter what I do we either seem to abort in the weather section
+    // or fall through here - never get to the else part i dont' think
+    console.log('visitor center object: ${visitorCenter');
         var visitorCenterName = document.createElement("h4");
         visitorCenterName.textContent = visitorCenter.name;
         visitorCenterName.id = "visitor-center-name";
@@ -61,16 +75,21 @@ var displayVisitorCenter = function() {
         visitorCenterInfo.id = "visitor-center-info";
         var visitorCenterImage = document.createElement("img");
         visitorCenterImage.id = "visitor-center-image";
-        visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
-            
-        visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
-    // let user know there were no campgrounds for this park
-    } else {
-        var visitorCenterInfo = document.createElement("textarea");
-        visitorCenterInfo.textContent = "There are no visitor centers for this park";
+    visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
+    visitorCenterImage.setAttribute("height", "300px");
 
-        visitorCenterEl.appendChild(visitorCenterInfo);
-    } 
+        visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
+    }
+  else {
+    visitorCenterErrorEl.style.display = "block";
+    console.log("no visitor center information was available");
+    // the error message is already there
+    }
+    //     var visitorCenterInfo = document.createElement("textarea");
+    //     visitorCenterInfo.textContent = "There are no visitor centers for this park";
+
+    //     visitorCenterEl.appendChild(visitorCenterInfo);
+    // } 
 // end of displayVisitorCenter function    
 };
 
@@ -82,16 +101,21 @@ var fetchCampgrounds = function(parkCode) {
     })
     .then(function(data) {
         //console.log(data.data);
+      // vl: start with a no campground message and then overwrite if good
+      // that catches both bad data and good data with no name maybe?
+      campgrounds[0] = "No campground information available";
         if (data.data) {
             for (i = 0; i < data.data.length; i++) {
                 campgrounds[i] = data.data[i].name;
             }
-        }
+          }
         displayCampgrounds();
     })
     .catch(function(error) {
         console.error(error);
-        alert("Problem finding campgrounds");
+      campgrounds[0] = "No campground information available";
+      displayCampgrounds();
+
     });
 // end of fetchCampgrounds function
 };
@@ -120,7 +144,9 @@ var fetchVisitorCenter = function(parkCode) {
     })
     .catch(function(error) {
         console.error(error);
-        alert("Problem finding visitor centers");
+        visitorCenterErrorEl.style.display = "block";
+        console.log("API Catch- visitor center fetch failed");
+    
     });
 // end of fetchVisitorCenter function
 };
@@ -214,20 +240,45 @@ var fetchForecast = function (latitude, longitude) {
                 parkForecast.forecastDate.push(moment.unix(data.daily[i].dt).utcOffset(data.timezone / 3600).format("MMM Do, YYYY"));
                 parkForecast.forecastTemp.push(data.daily[i].temp.day.toFixed(1));
                 parkForecast.forecastIcon.push(data.daily[i].weather[0].icon);
-            }           
+          } 
+          // turn on the weather div & turn off the "no weather" notice
+          noWeatherEl.style.display = "none";
+          fiveDayEl.style.display = "block";
+          displayForecast();
+
         }
         else {
-            console.log("no forecast available");
+          // turn off the weather div
+          console.log("no forecast available");
+          noWeatherEl.style.display = "block";
+          fiveDayEl.style.display = "none";
+
         }
-        displayForecast();
+        //vl: moved function call up into if(data) displayForecast();
         
     })
     .catch(function(error) {
-        console.error(error);
-        alert("Problem capturing 5-day forecast");
+      console.error(error);
+      console.log("Greetings from weather data catch function");
+      // vl: deleted alert - turn off the weather display div
+      fiveDayEl.style.display = "none";
+      noWeatherEl.style.display = "block";
     });
 // end of fetchForecast function
 };
+
+///////////////////////////////////////////
+// vl 1/29: Set default display for show/hide headings
+
+// fiveDayEl.style.display = "none";
+// noWeatherEl.style.display = "block";
+// visitorCenterErrorEl.style.display = "block";
+
+
+
+
+
+
 
 getParkChosen();
 
