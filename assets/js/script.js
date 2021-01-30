@@ -2,6 +2,8 @@ var stateNameSubmitEl = document.querySelector("#state-form");
 var stateNameEl = document.querySelector("#state-name");
 var parkListEl = document.querySelector("#park-list");
 var parkHistoryEl = document.querySelector("#park-history");
+var parkHeadingEl = document.getElementById("park-heading");
+
 // parkChose parkCode and parkName will be saved to localStorage
 var parkChosen = {
     parkCode: "",
@@ -32,7 +34,6 @@ var cleanStart = function() {
 
     parkHistory = getParkHistory();
     displayParkHistory(parkHistory);
-    console.log("in cleanStart refreshing park list");
     refresh(parkListEl);
 }
 
@@ -47,13 +48,21 @@ var getParkHistory = function(){
     return retrievedParks; 
 };
 
+getParkFullName = function() {
+    var retrievedParkFullName = localStorage.getItem("parkFullName");
+    retrievedParkFullName = JSON.parse(retrievedParkFullName);
+    if (!retrievedParkFullName) {
+        retrievedParkFullName ="";
+    };
+    return retrievedParkFullName; 
+}
+
 // checks to see if the park is already in parkHistory
 var newPark = function(parkCode) {
     var foundPark = false;
     if (parkHistory) {
         for (i = 0; i < parkHistory.length; i++) {
             if (parkHistory[i].parkCode === parkChosen.parkCode) {
-                console.log("park match");
                 foundPark = true;
             }
         }
@@ -69,11 +78,15 @@ var saveParks = function() {
 var getParks = function() {
     retrievedParks = localStorage.getItem("parks");
     retrievedParks = JSON.parse(retrievedParks);
+    var parkFullName = getParkFullName();
+
     if (!retrievedParks) {
         initializeParks();
     } else {
         parks = retrievedParks;
-        console.log(parks);
+
+        parkHeadingEl.textContent = `Parks in ${parkFullName}`;
+
         displayParks();
     }
 }
@@ -97,6 +110,7 @@ var saveParkHistory = function(parkCode, parkName) {
             imageUrl: "",
             imageAlt: ""  
         }
+        console.log("in saveParkHistory and should change parkName in 2nd page");
         // search through parks to find park info that matches park user chose to save to
         // parkHistory
         for (i = 0; i < parks.parkCode.length; i++) {
@@ -110,7 +124,6 @@ var saveParkHistory = function(parkCode, parkName) {
                  parkSave.imageAlt = parks.imageAlt[i];
              }
         }
-        console.log("parkSave = ", parkSave);
         parkHistory.push(parkSave);
         localStorage.setItem("parkHistory", JSON.stringify(parkHistory));
     } 
@@ -119,7 +132,6 @@ var saveParkHistory = function(parkCode, parkName) {
 
 // puts park search history on page
 var displayParkHistory = function(parkHistory) {
-    console.log("refreshing displayParkHistory");
     refresh(parkHistoryEl);
 
     if (parkHistory) {
@@ -147,7 +159,7 @@ var displayParks = function() {
     
     cleanStart();
     
-    if (parks) {
+      if (parks) {
 
         for (i =0; i < parks.parkName.length; i++) {
             var parkListItem = document.createElement("li");
@@ -158,7 +170,13 @@ var displayParks = function() {
                 event.preventDefault();
                 saveParks();
                 parkChosen.parkCode = event.target.id;
-                parkChosen.parkName = event.target.textContent;
+                // stephanie added stateName to parkName in parkHistory for 2nd page
+                // 01.30.2021
+                if (parks.stateName === "DC") {
+                    parkChosen.parkName = event.target.textContent + ", " + "D.C.";
+                } else {
+                    parkChosen.parkName = event.target.textContent + ", " + parks.stateName;
+                }
                 saveParkHistory(parkChosen.parkCode, parkChosen.parkName);
                 localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
                 window.location.href = "./index2.html";
@@ -166,6 +184,7 @@ var displayParks = function() {
             
             parkListEl.appendChild(parkListItem);
         }
+        
     }    
 // end of displayParks function    
 };
@@ -181,6 +200,13 @@ var initializeParks = function() {
     parks.imageUrl.length=0;
     parks.imageAlt.length=0;    
 }
+
+// some of the names of parks have random rumbers and symbols attached
+// so these were removed to make the name readable
+var fixParkName = function(parkName) {
+    fixedParkName = parkName.replace(/[^a-zA-Z ]/g, "");
+    return fixedParkName;
+}
 var fetchParks = function (stateName) {
 
     initializeParks();
@@ -194,7 +220,8 @@ var fetchParks = function (stateName) {
         console.log("the data from Natl Park API", data.data);
         parks.stateName = stateName;
         for (i = 0; i < data.data.length; i++) {
-            parks.parkName[i] = data.data[i].fullName;
+            var fullNameAlphaOnly = fixParkName(data.data[i].fullName);
+            parks.parkName[i] = fullNameAlphaOnly;
             parks.parkCode[i] = data.data[i].parkCode;
             parks.latitude[i] = data.data[i].latitude;
             parks.longitude[i] = data.data[i].longitude;
@@ -209,14 +236,8 @@ var fetchParks = function (stateName) {
                 parks.imageUrl[i] = data.data[i].images[0].url;
                 parks.imageAlt[i] = data.data[i].images[0].altText;
             }
-
         }
-        console.log("checking on parks ", parks);
-
-        displayParks();
-
-        // saveParkHistory(parks);
-        
+        displayParks();        
     })
     .catch(function(error) {
         console.error(error);
@@ -230,5 +251,17 @@ getParks();
 
 stateNameEl.onchange = function() {
     cleanStart();
-    fetchParks(stateNameEl.value);
+    
+    // captures the full state name from the html code drop down menu
+    // full state name to be used to in a header on the page rather than state abbreviation
+    var stateAbbreviation = $(this).find('option:selected').attr('id')
+    // the value of the selected element is the state name
+    var stateNameHeading = (stateNameEl.value);
+    parkHeadingEl.textContent = `Parks in ${stateNameHeading}`;
+    // puts the full park name in localStorage so that when go to new window to
+    // search a park and return to main page the full state name can still be displayed
+    localStorage.setItem("parkFullName", JSON.stringify(stateNameHeading));
+
+    fetchParks(stateAbbreviation);
+
 }
