@@ -137,9 +137,11 @@ var fetchVisitorCenter = function(parkCode) {
                 visitorCenter.imageUrl = data.data[0].images[0].url;
                 visitorCenter.imageAlt = data.data[0].images[0].altText;
             }
+          // vl 1/30: moved display visitor center call here to makes 
+          // sure we have good data
+            displayVisitorCenter(); 
         }
 
-        displayVisitorCenter();
         
     })
     .catch(function(error) {
