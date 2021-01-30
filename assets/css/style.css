@@ -23,16 +23,6 @@
 }
 /* licensed photo "Flowers on UNESCO" copyright theraja  */
 
-
-.hero {
-  height: 300px;
-  width: 100%;
-  margin-bottom: 25px;
-  background-image: url("../img/AngelsLanding-theraja.jpg");
-  background-size: cover;
-  background-position: center;
-}
-/* licensed photo "Flowers on UNESCO" copyright theraja  */
 h1, h2 {
   text-align:center;
 }
@@ -48,5 +38,15 @@ h1, h2 {
 }
 
 #park-history {
-  color: orange;
+  color: rgba(41, 109, 75, 0.623);
+}
+
+#park-history li:hover {
+  color: darkolivegreen;
+  cursor: pointer;
+}
+
+#park-list li:hover {
+  color: darkolivegreen;
+  cursor: pointer;
 }
