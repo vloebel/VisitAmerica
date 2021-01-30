@@ -21,8 +21,8 @@
   <nav>
     <div style="padding-left: 1%" class="nav-wrapper green darken-4 white-text">
       <a href="#" class="brand-logo ">Happy Camper</a>
-      <ul id="search-return" class="right">
-        <li><a href="./index.html" class="waves-effect waves-light green darken-3 white text btn">Return
+      <ul id="return-to-search" style="padding-right: 1%" class="right">
+        <li><a href="#" class="waves-effect waves-light green darken-3 white text btn">Return
             <i class="material-icons right">cloud</i></a>
         </li>
       </ul>
@@ -46,23 +46,29 @@
       <div class="row">
 
         <div class="col s12 m6">
-          <h5>Campgrounds</h5>
+          <h4>Campgrounds</h4>
           <ul id="campground-list">
             <!-- append campground info here -->
           </ul>
         </div>
         <div class="col s12 m6" id="visitor-center">
           <!-- append visitor center -->
-          <h5>Visitor Center</h5>
+          <h4>Visitor Center</h4>
         </div>
       </div>
     </div>
     <!-- Forecast is NOT in materializer container so it has more room -->
-    <!-- <div class="divider"></div> -->
+    <!-- no-weather-forecast OR five-day-forecast divs are displayed -->
+    <!-- or hidden by js based on forecast availability -->
+    <!-- putting the headers and error msg in its own div makes -->\
+    <!-- them line up with the containers above -->
+    <div class="container">
+      <h4 >Five-Day Forecast </h4>
+      <div id="no-weather-forecast" class="generated-info">No weather data available</div>
+    </div>
+    
     <div id="five-day-forecast">
-      <h3 style="text-align:center"> Weather Forecast </h3>
-
-      <!-- Card 0 -->
+        <!-- Card 0 -->
       <div class="row">
         <div class="col s12 m4 l2 offset-l1">
           <div id="card0" style="text-align:center" class="card green darken-4">
