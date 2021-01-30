@@ -3,6 +3,8 @@ var parkChosenEl = document.querySelector("#park-chosen");
 var returnToSearchBtnEl = document.querySelector("#return-to-search");
 var campgroundListEl = document.querySelector("#campground-list");
 var visitorCenterEl = document.querySelector("#visitor-center");
+// new 1/29 visitorCenterErrorEl used to hide extra heading if we find a visitor center
+var visitorCenterErrorEl = document.querySelector("#visitor-center-error");
 // New 1/29 - fiveDayEl used to show/hide weather display
 var fiveDayEl = document.querySelector("#five-day-forecast");
 var noWeatherEl = document.querySelector("#no-weather-forecast");
@@ -55,7 +57,13 @@ var displayCampgrounds = function() {
 };
 
 var displayVisitorCenter = function() {
-    if (visitorCenter) {
+  if (visitorCenter) {
+      // vl 1/29: tried to write directly to the h4 in the index2 file but
+      // I was stepping on something - so I'm just going to hide it if
+      // we are displaying this visitor center. Keep in mind the "h4" element
+      // is hardcoded here so if we change the other ones it won't match
+    // visitorCenterErrorEl.style.display = "none";
+    console.log('visitor center object: ${visitorCenter');
         var visitorCenterName = document.createElement("h4");
         visitorCenterName.textContent = visitorCenter.name;
         visitorCenterName.id = "visitor-center-name";
@@ -65,11 +73,13 @@ var displayVisitorCenter = function() {
         var visitorCenterImage = document.createElement("img");
         visitorCenterImage.id = "visitor-center-image";
         visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
-            
         visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
-    // let user know there were no campgrounds for this park
     }
-    // else {
+  else {
+    visitorCenterErrorEl.style.display = "block";
+    console.log("no visitor center information was available");
+    // the error message is already there
+    }
     //     var visitorCenterInfo = document.createElement("textarea");
     //     visitorCenterInfo.textContent = "There are no visitor centers for this park";
 
@@ -95,7 +105,6 @@ var fetchCampgrounds = function(parkCode) {
             }
           }
         displayCampgrounds();
-     
     })
     .catch(function(error) {
         console.error(error);
@@ -130,7 +139,9 @@ var fetchVisitorCenter = function(parkCode) {
     })
     .catch(function(error) {
         console.error(error);
-        alert("Problem finding visitor centers");
+        visitorCenterErrorEl.style.display = "block";
+        console.log("API Catch- visitor center fetch failed");
+    
     });
 // end of fetchVisitorCenter function
 };
@@ -250,6 +261,19 @@ var fetchForecast = function (latitude, longitude) {
     });
 // end of fetchForecast function
 };
+
+///////////////////////////////////////////
+// vl 1/29: Set default display for show/hide headings
+
+// fiveDayEl.style.display = "none";
+// noWeatherEl.style.display = "block";
+// visitorCenterErrorEl.style.display = "block";
+
+
+
+
+
+
 
 getParkChosen();
 
