@@ -32,7 +32,7 @@
   <!-- after park name -->
   <header id="park-chosen-container">
 
-    <h1 id="park-chosen"></h1>
+    <h2 id="park-chosen"></h2>
     <!-- possibly include a picture or quote if we can grab one from somewhere -->
   </header>
   <div class="divider" style="width: 80%" ></div>
@@ -45,12 +45,26 @@
         <div class="col s12 m6">
           <div class="row">
             <div class="col s12">
-              <h4>Park Fee</h4>
-              <p id="park-fee" class="generated-info">
+              <h4>Park Fees/Hours</h4>
+              <p>
                 <!-- append park fee info here -->
+                <span id="fee-title" class="generated-info"></span>
+                <span id="park-fee" class="generated-info"></span>
               </p>
-              <p id="park-fee-description" class="generated-info">
-                <!-- apped description of park fee here -->
+              <p>
+                <!-- append description of park fee here -->
+              <span id="fee-description-title" class="generated-info"></span>
+              <span id="fee-description" class="generated-info"></span>
+              </p>
+              <p>
+                <!-- append park hours here -->
+                <span id="operating-hours-title" class="generated-info"></span>
+                <span id="operating-hours" class="generated-info"></span>
+              </p>
+              <p>
+                <!-- append exceptions to park hours here -->
+                <span id="exception-hours-title" class="generated-info"></span>
+                <span id="exception-hours" class="generated-info"></span>
               </p>
             </div>
             <div class="col s12">

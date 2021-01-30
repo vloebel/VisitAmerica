@@ -20,7 +20,9 @@ var parks = {
     feeTitle: [],
     feeDescr: [],
     imageUrl: [],
-    imageAlt: []
+    imageAlt: [],
+    operatingHours:[],
+    exceptionHours:[]
 };
 // saved to localStorage array of single parks and info
 var parkHistory = [];
@@ -108,7 +110,9 @@ var saveParkHistory = function(parkCode, parkName) {
             feeTitle: "",
             feeDescr: "",
             imageUrl: "",
-            imageAlt: ""  
+            imageAlt: "",
+            operatingHours: "",
+            exceptionHours: ""
         }
         console.log("in saveParkHistory and should change parkName in 2nd page");
         // search through parks to find park info that matches park user chose to save to
@@ -122,6 +126,8 @@ var saveParkHistory = function(parkCode, parkName) {
                  parkSave.longitude = parks.longitude[i];
                  parkSave.imageUrl = parks.imageUrl[i];
                  parkSave.imageAlt = parks.imageAlt[i];
+                 parkSave.operatingHours = parks.operatingHours[i];
+                 parkSave.exceptionHours = parks.exceptionHours[i]
              }
         }
         parkHistory.push(parkSave);
@@ -190,15 +196,17 @@ var displayParks = function() {
 };
 var initializeParks = function() {
     parks.stateName ="";
-    parks.parkName.length=0;
-    parks.parkCode.length=0;
-    parks.latitude.length=0;
-    parks.longitude.length=0;
-    parks.fee.length=0;
-    parks.feeTitle.length=0;
-    parks.feeDescr.length=0;
-    parks.imageUrl.length=0;
-    parks.imageAlt.length=0;    
+    parks.parkName.length = 0;
+    parks.parkCode.length = 0;
+    parks.latitude.length = 0;
+    parks.longitude.length = 0;
+    parks.fee.length = 0;
+    parks.feeTitle.length = 0;
+    parks.feeDescr.length = 0;
+    parks.imageUrl.length = 0;
+    parks.imageAlt.length = 0; 
+    parks.operatingHours.length = 0;  
+    parks.exceptionHours.length = 0; 
 }
 
 // some of the names of parks have random rumbers and symbols attached
@@ -236,6 +244,40 @@ var fetchParks = function (stateName) {
                 parks.imageUrl[i] = data.data[i].images[0].url;
                 parks.imageAlt[i] = data.data[i].images[0].altText;
             }
+            if (data.data[i].operatingHours[0]) {
+                parks.operatingHours[i] = data.data[i].operatingHours[0].description;
+            } else {
+                parks.operatingHours[i] = "unavailable";
+            }
+            // looking for exception hours (need to check whether each object or on api exists)
+            var foundExceptionHours = false;
+            if (data.data[i].operatingHours) {
+                if (data.data[i].operatingHours[0]) {
+                    if (data.data[i].operatingHours[0].exceptions) {
+                        if (data.data[i].operatingHours[0].exceptions[0]) {
+                            if (data.data[i].operatingHours[0].exceptions[0].name) {
+                                foundExceptionHours = true;
+                                // appending all the exceptions onto one string
+                                for (j = 0; j < data.data[i].operatingHours[0].exceptions.length; j++) {
+                                    if (data.data[i].operatingHours[0].exceptions[j].name) {
+                                        // checks if something already in exceptionHours string
+                                        if (!parks.exceptionHours[i]) {
+                                            parks.exceptionHours[i] = "";
+                                        } else if (parks.exceptionHours[i]) {
+                                            parks.exceptionHours[i] += ", ";
+                                        }
+                                        parks.exceptionHours[i] += data.data[i].operatingHours[0].exceptions[j].name;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } 
+            if (!foundExceptionHours) {
+                parks.exceptionHours[i] = "none listed";
+            }
+        // end of looping through parks
         }
         displayParks();        
     })

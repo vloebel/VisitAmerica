@@ -41,6 +41,10 @@ h1, h2 {
   width: 50px;
 }
 
+#fee-title, #fee-description-title, #operating-hours-title, #exception-hours-title {
+  font-weight: bold;
+}
+
 #park-history {
   color: rgba(41, 109, 75, 0.623);
 }
