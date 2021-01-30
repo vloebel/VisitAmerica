@@ -62,7 +62,10 @@ var displayVisitorCenter = function() {
       // I was stepping on something - so I'm just going to hide it if
       // we are displaying this visitor center. Keep in mind the "h4" element
       // is hardcoded here so if we change the other ones it won't match
-    // visitorCenterErrorEl.style.display = "none";
+    visitorCenterErrorEl.style.display = "none";
+    // vl: I'm really stuck here - not sure I understand the code and
+    // no matter what I do we either seem to abort in the weather section
+    // or fall through here - never get to the else part i dont' think
     console.log('visitor center object: ${visitorCenter');
         var visitorCenterName = document.createElement("h4");
         visitorCenterName.textContent = visitorCenter.name;
@@ -72,7 +75,9 @@ var displayVisitorCenter = function() {
         visitorCenterInfo.id = "visitor-center-info";
         var visitorCenterImage = document.createElement("img");
         visitorCenterImage.id = "visitor-center-image";
-        visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
+    visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
+    visitorCenterImage.setAttribute("height", "300px");
+
         visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
     }
   else {
