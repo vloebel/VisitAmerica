@@ -154,9 +154,9 @@ var fetchVisitorCenter = function(parkCode) {
                 visitorCenter.imageUrl = data.data[0].images[0].url;
                 visitorCenter.imageAlt = data.data[0].images[0].altText;
             }
+            displayVisitorCenter();
         }
 
-        displayVisitorCenter();
         
     })
     .catch(function(error) {
