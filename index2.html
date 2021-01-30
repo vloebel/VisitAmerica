@@ -19,9 +19,13 @@
 
 <body>
   <nav>
-    <div class="nav-wrapper green darken-4 white-text">
+    <div style="padding-left: 1%" class="nav-wrapper green darken-4 white-text">
       <a href="#" class="brand-logo ">Happy Camper</a>
-
+      <ul id="search-return" class="right">
+        <li><a href="./index.html" class="waves-effect waves-light green darken-3 white text btn">Return
+            <i class="material-icons right">cloud</i></a>
+        </li>
+      </ul>
     </div>
   </nav>
 
@@ -38,58 +42,52 @@
   <main>
     <!-- This div holds the api results that give -->
     <!-- campground information about the selected park -->
-    <div class="row">
-      <div class="col s12">
-        <h2 id="campground-info">Campground Information</h2>
-      </div>
-      <div class="col s6">
-        <h5>CAMPGROUNDS</h5>
-        <ul id="campground-list">
-          <!-- append campground info here -->
-        </ul>
-      </div>
-      <div class="col s6" id="visitor-center">
-        <!-- append visitor center -->
-        <h5>VISITOR CENTER</h5>
-      
-      </div>
-    </div>
-    <div>
-      <button type="button" id="return-to-search">Return to Search</button>
-    </div>
-  
-    <div id="five-day-forecast">
-      <h3> Weather Forecast hardcoded with sample data </h3>
-
+    <div class="container">
       <div class="row">
-        <!-- Card 0 -->
-        <div class="col s12 m4 l2">
-          <div id="card0" class="card blue-grey darken-1">
+
+        <div class="col s12 m6">
+          <h5>Campgrounds</h5>
+          <ul id="campground-list">
+            <!-- append campground info here -->
+          </ul>
+        </div>
+        <div class="col s12 m6" id="visitor-center">
+          <!-- append visitor center -->
+          <h5>Visitor Center</h5>
+        </div>
+      </div>
+    </div>
+    <!-- Forecast is NOT in materializer container so it has more room -->
+    <!-- <div class="divider"></div> -->
+    <div id="five-day-forecast">
+      <h3 style="text-align:center"> Weather Forecast </h3>
+
+      <!-- Card 0 -->
+      <div class="row">
+        <div class="col s12 m4 l2 offset-l1">
+          <div id="card0" style="text-align:center" class="card green darken-4">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-0"></p>
               <img id="card-icon-0" alt="weather icon">
               <p class="card-info mb-2 ">Temp: <span id="card-temp-0"></span> &#8457</p>
-
             </div>
           </div>
         </div>
 
         <!-- Card 1 -->
         <div class="col s12 m4 l2">
-          <div id="card1" class="card blue-grey darken-1">
+          <div id="card1" style="text-align:center" class="card green darken-4">
             <div class="card-content white-text">
-
               <p class="card-title" id="card-date-1"></p>
               <img id="card-icon-1" alt="weather icon">
               <p class="card-info mb-2 ">Temp: <span id="card-temp-1"></span> &#8457</p>
-
             </div>
           </div>
         </div>
 
         <!-- Card 2 -->
         <div class="col s12 m4 l2">
-          <div id="card2" class="card blue-grey darken-1">
+          <div id="card2" style="text-align:center" class="card green darken-4">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-2"></p>
               <img id="card-icon-2" alt="weather icon">
@@ -100,7 +98,7 @@
 
         <!-- Card 3 -->
         <div class="col s12 m4 l2">
-          <div id="card3" class="card blue-grey darken-1">
+          <div id="card3" style="text-align:center" class="card green darken-4">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-3"></p>
               <img id="card-icon-3" alt="weather icon">
@@ -109,23 +107,20 @@
           </div>
         </div>
 
-
         <!-- Card 4 -->
         <div class="col s12 m4 l2">
-          <div id="card4" class="card blue-grey darken-1">
+          <div id="card4" style="text-align:center" class="card green darken-4">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-4"></p>
               <img id="card-icon-4" alt="weather icon">
               <p class="card-info mb-2 ">Temp: <span id="card-temp-4"></span> &#8457</p>
-
             </div>
           </div>
         </div>
 
-      </div> <!--end of row-->
+      </div><!--row-->
     </div> <!-- 5-day-forecast-->
-        <!-- Vicky's Test Weather Cards 1/28/21 -->
-        <!-- /////////////////////////////////// -->
+
 
   </main>
 

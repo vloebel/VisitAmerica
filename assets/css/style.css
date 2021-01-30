@@ -23,16 +23,10 @@
 }
 /* licensed photo "Flowers on UNESCO" copyright theraja  */
 
-
-.hero {
-  height: 300px;
-  width: 100%;
-  margin-bottom: 25px;
-  background-image: url("../img/AngelsLanding-theraja.jpg");
-  background-size: cover;
-  background-position: center;
+nav a{
+  padding: 1%,0;
 }
-/* licensed photo "Flowers on UNESCO" copyright theraja  */
+
 h1, h2 {
   text-align:center;
 }
