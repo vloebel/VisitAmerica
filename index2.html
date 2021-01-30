@@ -20,7 +20,7 @@
 <body>
   <nav>
     <div style="padding-left: 1%" class="nav-wrapper green darken-4 white-text">
-      <a href="#" class="brand-logo ">Happy Camper</a>
+      <a href="#" class="brand-logo ">Visit America</a>
       <ul id="return-to-search" style="padding-right: 1%" class="right">
         <li><a href="#" class="waves-effect waves-light green darken-3 white text btn">Return</a>
         </li>
@@ -28,12 +28,15 @@
     </div>
   </nav>
 
-  <div class="hero">
+  <!-- stephanie removed hero from park page 1/30/2021 -->
+  <!-- <div class="hero"> -->
     <!-- hero is in css for use on multiple pages -->
     <!-- <img class="responsive-img" src="./assets/img/AngelsLanding-theraja.jpg"> -->
-  </div>
+  <!-- </div> -->
 
-  <header>
+  <!-- Stephanie added 1.30.2021 - id park-chosen-container needed to append image -->
+  <!-- after park name -->
+  <header id="park-chosen-container">
 
     <h1 id="park-chosen"></h1>
     <!-- possibly include a picture or quote if we can grab one from somewhere -->
@@ -45,20 +48,36 @@
       <div class="row">
 
         <div class="col s12 m6">
-          <h4>Campgrounds</h4>
-          <ul id="campground-list" class="generated-info">
-            <!-- append campground info here -->
-          </ul>
+          <div class="row">
+            <div class="col s12">
+              <h4>Park Fee</h4>
+              <p id="park-fee" class="generated-info">
+                <!-- append park fee info here -->
+              </p>
+              <p id="park-fee-description" class="generated-info">
+                <!-- apped description of park fee here -->
+              </p>
+            </div>
+            <div class="col s12">
+              <h4>Campgrounds</h4>
+              <ul id="campground-list" class="generated-info">
+                <!-- append campground info here -->
+              </ul>
+            </div>
+          </div>
         </div>
+
         <div class="col s12 m6" id="visitor-center">
           <!-- append visitor center or show error msg -->
           <div id="visitor-center-error">
             <h4 >Visitor Center</h4>
             <p class="generated-info">No visitor center information available</p>
           </div>
-          
         </div>
+
+        <!-- end of main row -->
       </div>
+    <!-- end of container -->
     </div>
     <!-- Forecast is NOT in materializer container so it has more room -->
     <!-- no-weather-forecast OR five-day-forecast divs are displayed -->

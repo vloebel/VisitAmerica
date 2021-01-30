@@ -110,6 +110,7 @@ var saveParkHistory = function(parkCode, parkName) {
             imageUrl: "",
             imageAlt: ""  
         }
+        console.log("in saveParkHistory and should change parkName in 2nd page");
         // search through parks to find park info that matches park user chose to save to
         // parkHistory
         for (i = 0; i < parks.parkCode.length; i++) {
@@ -145,8 +146,8 @@ var displayParkHistory = function(parkHistory) {
                 saveParks();
                 parkChosen.parkCode = event.target.id;
                 parkChosen.parkName = event.target.textContent;
-              localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
-              window.location.href = "./index2.html";
+                localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
+                window.location.href = "./index2.html";
             })
             parkHistoryEl.appendChild(parkListItem); 
         }
@@ -169,7 +170,13 @@ var displayParks = function() {
                 event.preventDefault();
                 saveParks();
                 parkChosen.parkCode = event.target.id;
-                parkChosen.parkName = event.target.textContent;
+                // stephanie added stateName to parkName in parkHistory for 2nd page
+                // 01.30.2021
+                if (parks.stateName === "DC") {
+                    parkChosen.parkName = event.target.textContent + ", " + "D.C.";
+                } else {
+                    parkChosen.parkName = event.target.textContent + ", " + parks.stateName;
+                }
                 saveParkHistory(parkChosen.parkCode, parkChosen.parkName);
                 localStorage.setItem("parkChosen", JSON.stringify(parkChosen));
                 window.location.href = "./index2.html";

@@ -45,7 +45,26 @@ h1, h2 {
   color: orange;
 }
 
+/* stephanie added 1.30.2021 -- can be deleted if other hover effects added */
+#park-history li:hover {
+  color: rgb(255, 165, 0, .50);
+}
+
 #park-list li:hover {
   color: grey;
 }
+
+/* stephanie added styling 1.30.2021 - to center image */
+#park-chosen-container {
+  display: block;
+  text-align: center;
+}
+
+/* stephanie added styling 1.30.2021 - styling of park image appearing after park name */
+#park-chosen-container img {
+  height: 300px;
+  padding: 10px;
+}
+
+
 

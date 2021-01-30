@@ -8,6 +8,12 @@ var visitorCenterErrorEl = document.querySelector("#visitor-center-error");
 // New 1/29 - fiveDayEl used to show/hide weather display
 var fiveDayEl = document.querySelector("#five-day-forecast");
 var noWeatherEl = document.querySelector("#no-weather-forecast");
+// stephanie added 1.30.2021 - needed to append image after park name
+var parkChosenContainerEl = document.querySelector("#park-chosen-container");
+// stephanie added 1.30.2021 - needed to append park fee
+var parkFeeEl = document.querySelector("#park-fee");
+// stephanie added 1.30.2021 - needed to append park fee description
+var parkFeeDescrEl = document.querySelector("#park-fee-description");
 
 // park info pulled from localStorage
 var park = {
@@ -15,6 +21,9 @@ var park = {
     parkName: "",
     latitude: "",
     longitude: "",
+    fee: "",
+    feeTitle: "",
+    feeDescr: "",
     imageUrl: "",
     imageAlt: ""
 };
@@ -36,6 +45,14 @@ var parkForecast = {
 };
 // from localStorage
 var parkHistory = [];
+
+// stephanie added 1.30.2021 to display park entrance fee
+var displayFee = function(fee, feeDescr) {
+    if (fee) {
+        parkFeeEl.textContent = "Entrance Fee: " + fee;
+        parkFeeDescrEl.textContent = feeDescr;
+    }
+}
 
 // displays parks on the page in the state user chose
 var displayCampgrounds = function() {
@@ -193,9 +210,21 @@ var getParkChosen = function() {
     park.parkName = parkHistory[parkIndex].parkName;
     park.latitude = parkHistory[parkIndex].latitude;
     park.longitude = parkHistory[parkIndex].longitude;
+    // stephanie added fee info to park 1.30.2021
+    park.fee = parkHistory[parkIndex].fee;
+    park.feeTitle = parkHistory[parkIndex].feeDescr;
+    park.feeDescr = parkHistory[parkIndex].feeDescr;
     park.imageUrl = parkHistory[parkIndex].imageUrl;
     park.imageAlt = parkHistory[parkIndex].imageAlt;
-
+    // Stephanie added park image 01.30.2021
+    if (park.imageUrl) {
+        var parkImage = document.createElement("img");
+        parkImage.setAttribute("src", park.imageUrl);
+        parkImage.setAttribute("alt", park.imageAlt);
+        parkChosenContainerEl.appendChild(parkImage);
+    }
+    // stephanie added displayFee function call 1.30.2021
+    displayFee(park.fee, park.feeTitle);
     fetchCampgrounds(park.parkCode);
     fetchVisitorCenter(park.parkCode);
     fetchForecast(park.latitude, park.longitude);
