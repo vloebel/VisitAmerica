@@ -8,12 +8,25 @@ var visitorCenterErrorEl = document.querySelector("#visitor-center-error");
 // New 1/29 - fiveDayEl used to show/hide weather display
 var fiveDayEl = document.querySelector("#five-day-forecast");
 var noWeatherEl = document.querySelector("#no-weather-forecast");
-// stephanie added 1.30.2021 - needed to append image after park name
+// appends image after park name
 var parkChosenContainerEl = document.querySelector("#park-chosen-container");
-// stephanie added 1.30.2021 - needed to append park fee
+//  appends park fee
 var parkFeeEl = document.querySelector("#park-fee");
-// stephanie added 1.30.2021 - needed to append park fee description
-var parkFeeDescrEl = document.querySelector("#park-fee-description");
+// gets span element title for park fee
+var parkFeeTitleEl = document.querySelector("#fee-title");
+// appends park fee description
+var parkFeeDescrEl = document.querySelector("#fee-description");
+// gets span element title for park fee description
+var parkFeeDescrTitleEl = document.querySelector("#fee-description-title");
+// appends park operating hours description
+var parkOperatingHoursEl = document.querySelector("#operating-hours");
+// gets span element title for operating hours
+var parkOperatingHoursTitleEl = document.querySelector("#operating-hours-title");
+// appends park exceptions to operating hours description
+var parkExceptionHoursEl = document.querySelector("#exception-hours");
+// gets span element title for operating hours
+var parkExceptionHoursTitleEl = document.querySelector("#exception-hours-title");
+
 
 // park info pulled from localStorage
 var park = {
@@ -25,7 +38,9 @@ var park = {
     feeTitle: "",
     feeDescr: "",
     imageUrl: "",
-    imageAlt: ""
+    imageAlt: "",
+    operatingHours: "",
+    exceptionHours: ""
 };
 
 // campground array
@@ -47,10 +62,24 @@ var parkForecast = {
 var parkHistory = [];
 
 // stephanie added 1.30.2021 to display park entrance fee
-var displayFee = function(fee, feeDescr) {
+var displayFeeHours = function(fee, feeDescr, operatingHours, exceptionHours) {
     if (fee) {
-        parkFeeEl.textContent = "Entrance Fee: " + fee;
+        parkFeeTitleEl.textContent = "Entrance Fee: "
+        console.log(parkFeeTitleEl)
+        parkFeeEl.textContent = fee;
+    }
+    if (feeDescr) {
+        parkFeeDescrTitleEl.textContent = "Description: "
         parkFeeDescrEl.textContent = feeDescr;
+    }
+    // stephanie added operating and exception hours 1.30.2021
+    if (operatingHours) {
+        parkOperatingHoursTitleEl.textContent = "Operating Hours: ";
+        parkOperatingHoursEl.textContent = operatingHours;
+        if (exceptionHours) {
+            parkExceptionHoursTitleEl.textContent = "Exceptions to Hours: ";
+            parkExceptionHoursEl.textContent = exceptionHours;
+        }
     }
 }
 
@@ -75,27 +104,27 @@ var displayCampgrounds = function() {
 
 var displayVisitorCenter = function() {
   if (visitorCenter) {
-      // vl 1/29: tried to write directly to the h4 in the index2 file but
-      // I was stepping on something - so I'm just going to hide it if
-      // we are displaying this visitor center. Keep in mind the "h4" element
-      // is hardcoded here so if we change the other ones it won't match
+    // vl 1/29: tried to write directly to the h4 in the index2 file but
+    // I was stepping on something - so I'm just going to hide it if
+    // we are displaying this visitor center. Keep in mind the "h4" element
+    // is hardcoded here so if we change the other ones it won't match
     visitorCenterErrorEl.style.display = "none";
     // vl: I'm really stuck here - not sure I understand the code and
     // no matter what I do we either seem to abort in the weather section
     // or fall through here - never get to the else part i dont' think
     console.log('visitor center object: ${visitorCenter');
-        var visitorCenterName = document.createElement("h4");
-        visitorCenterName.textContent = visitorCenter.name;
-        visitorCenterName.id = "visitor-center-name";
-        var visitorCenterInfo = document.createElement("p");
-        visitorCenterInfo.textContent = visitorCenter.description;
-        visitorCenterInfo.id = "visitor-center-info";
-        var visitorCenterImage = document.createElement("img");
-        visitorCenterImage.id = "visitor-center-image";
+    var visitorCenterName = document.createElement("h4");
+    visitorCenterName.textContent = visitorCenter.name;
+    visitorCenterName.id = "visitor-center-name";
+    var visitorCenterInfo = document.createElement("p");
+    visitorCenterInfo.textContent = visitorCenter.description;
+    visitorCenterInfo.id = "visitor-center-info";
+    var visitorCenterImage = document.createElement("img");
+    visitorCenterImage.id = "visitor-center-image";
     visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
     visitorCenterImage.setAttribute("height", "300px");
 
-        visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
+    visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
     }
   else {
     visitorCenterErrorEl.style.display = "block";
@@ -218,6 +247,9 @@ var getParkChosen = function() {
     park.feeDescr = parkHistory[parkIndex].feeDescr;
     park.imageUrl = parkHistory[parkIndex].imageUrl;
     park.imageAlt = parkHistory[parkIndex].imageAlt;
+    // stephanie added operating and exception hours 1.30.2021
+    park.operatingHours = parkHistory[parkIndex].operatingHours;
+    park.exceptionHours = parkHistory[parkIndex].exceptionHours;
     // Stephanie added park image 01.30.2021
     if (park.imageUrl) {
         var parkImage = document.createElement("img");
@@ -226,7 +258,7 @@ var getParkChosen = function() {
         parkChosenContainerEl.appendChild(parkImage);
     }
     // stephanie added displayFee function call 1.30.2021
-    displayFee(park.fee, park.feeTitle);
+    displayFeeHours(park.fee, park.feeTitle, park.operatingHours, park.exceptionHours);
     fetchCampgrounds(park.parkCode);
     fetchVisitorCenter(park.parkCode);
     fetchForecast(park.latitude, park.longitude);
