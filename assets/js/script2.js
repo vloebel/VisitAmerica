@@ -356,20 +356,6 @@ var displayForecast = function () {
     }
     // end of displayForecast Function
 }
-var getMap = function(latitude,longitude) {
-    // sg: required for leaflet map 1.31.2021
-    var mymap = L.map('mapid').setView([latitude, longitude], 13);
-
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ'
-    }).addTo(mymap);
-}
-
 
 var fetchForecast = function (latitude, longitude) {
     // gets 5-day forecast
