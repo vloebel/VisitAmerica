@@ -1,5 +1,7 @@
 // script for national park & monument information
 var parkChosenEl = document.querySelector("#park-chosen");
+// vl 1/31: return Home for navbar title click
+var returnHomeEl = document.querySelector("#return-home");
 var returnToSearchBtnEl = document.querySelector("#return-to-search");
 var campgroundListEl = document.querySelector("#campground-list");
 var visitorCenterEl = document.querySelector("#visitor-center");
@@ -409,5 +411,6 @@ var fetchForecast = function (latitude, longitude) {
 
 getParkChosen();
 
-
-returnToSearchBtnEl.addEventListener("click", backToSearch);
+// vl 1/31 - Clicking title in nav bar also returns to home page
+returnHomeEl.addEventListener("click", backToSearch);
+returnToSearchBtnEl.addEventListener("click", backToSearch); 
