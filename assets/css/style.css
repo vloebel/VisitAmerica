@@ -41,6 +41,10 @@ h1, h2 {
   width: 50px;
 }
 
+#blank {
+  font-style: italic;
+}
+
 #fee-title, #fee-description-title, #operating-hours-title, #exception-hours-title {
   font-weight: bold;
 }
@@ -69,5 +73,9 @@ h1, h2 {
 #park-chosen-container img {
   height: 300px;
   padding: 10px;
+}
+
+#webcam-container {
+  text-align: center;
 }
 
