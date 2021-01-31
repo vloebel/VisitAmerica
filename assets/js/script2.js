@@ -325,6 +325,9 @@ var getParkChosen = function() {
         var parkImage = document.createElement("img");
         parkImage.setAttribute("src", park.imageUrl);
         parkImage.setAttribute("alt", park.imageAlt);
+        // vl 1/31: responsive-img Materialize class limits img to 100% of col width 
+        parkImage.classList.add("responsive-img");
+        parkImage.setAttribute("alt", park.imageAlt);
         parkChosenContainerEl.appendChild(parkImage);
     }
     // stephanie added displayFee function call 1.30.2021
