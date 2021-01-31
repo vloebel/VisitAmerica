@@ -293,7 +293,6 @@ getParks();
 
 stateNameEl.onchange = function() {
     cleanStart();
-    
     // captures the full state name from the html code drop down menu
     // full state name to be used to in a header on the page rather than state abbreviation
     var stateAbbreviation = $(this).find('option:selected').attr('id')
