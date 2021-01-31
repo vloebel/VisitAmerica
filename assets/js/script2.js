@@ -26,7 +26,8 @@ var parkOperatingHoursTitleEl = document.querySelector("#operating-hours-title")
 var parkExceptionHoursEl = document.querySelector("#exception-hours");
 // gets span element title for operating hours
 var parkExceptionHoursTitleEl = document.querySelector("#exception-hours-title");
-
+// gets webcam div to add button if a webcam is available
+var webcamContainerEl = document.querySelector("#webcam-container");
 
 // park info pulled from localStorage
 var park = {
@@ -45,6 +46,7 @@ var park = {
 
 // campground array
 var campgrounds = [];
+
 // visitorCenter information
 var visitorCenter = {
     name: "",
@@ -52,12 +54,20 @@ var visitorCenter = {
     imageUrl: "",
     imageAlt: ""
 }; 
+
+// webcam information
+var webcam = {
+    title: "",
+    url: ""
+};
+
 // forecasted park weather information
 var parkForecast = {
     forecastDate: [],
     forecastTemp: [],
     forecastIcon: []
 };
+
 // from localStorage
 var parkHistory = [];
 
@@ -139,6 +149,19 @@ var displayVisitorCenter = function() {
 // end of displayVisitorCenter function    
 };
 
+var displayWebcam = function() {
+    if (webcam.url) {
+        webcamButton = document.createElement("a");
+        webcamButton.id = "webcam-button";
+        webcamButton.textContent = webcam.title + " webcam";
+        webcamButton.setAttribute("class", "waves-effect waves-light green darken-3 white text btn");
+        webcamButton.addEventListener("click", function(event) {
+            window.open(webcam.url, "_blank");
+        });
+        webcamContainerEl.appendChild(webcamButton);
+    };
+};
+
 var fetchCampgrounds = function(parkCode) {
     // gets campgrounds from a particular national park
     var apiCampgrounds = "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
@@ -197,6 +220,36 @@ var fetchVisitorCenter = function(parkCode) {
     
     });
 // end of fetchVisitorCenter function
+};
+
+// gets a webcam if available at a national park or monument
+var fetchWebcams = function(parkCode) {
+    // gets national park webcams
+    var apiVisitorCenters = "https://developer.nps.gov/api/v1/webcams?q=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
+    fetch(apiVisitorCenters).then(function (response) {
+        return response.json();
+    })
+    .then(function(data) {
+        console.log("webcams", data.data);
+        
+        // take first webcam info available
+        if (data.data) {
+            if (data.data[0]) {
+                if (data.data[0].url) {
+                    webcam.title = data.data[0].title;
+                    webcam.url = data.data[0].url;
+                    displayWebcam();
+                };
+            };
+        };
+    })
+    .catch(function(error) {
+        console.error(error);
+        visitorCenterErrorEl.style.display = "block";
+        console.log("API Catch- visitor center fetch failed");
+    
+    });
+// end of fetchWebcams function
 };
 
 var backToSearch = function(event) {
@@ -261,6 +314,7 @@ var getParkChosen = function() {
     displayFeeHours(park.fee, park.feeTitle, park.operatingHours, park.exceptionHours);
     fetchCampgrounds(park.parkCode);
     fetchVisitorCenter(park.parkCode);
+    fetchWebcams(park.parkCode);
     fetchForecast(park.latitude, park.longitude);
     
 };
