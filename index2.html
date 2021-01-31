@@ -20,6 +20,9 @@
     crossorigin="" />
 
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <!-- style2.css is for this file only -->
+  <link rel="stylesheet" href="./assets/css/style2.css" />
+  
   <title>Park Information</title>
 </head>
 
@@ -36,19 +39,21 @@
 
   <!-- Stephanie added 1.30.2021 - id park-chosen-container needed to append image -->
   <!-- after park name -->
-  <header >
-    <h2 id="park-chosen"></h2>
-    <div class="container">
-      <!-- park image in one column, map in the other -->
-      <div class="row">
-        <div id="park-chosen-container" class="col s12 m6">
-          <!-- js puts park image here -->
-        </div>
-        <div class="col s12 m6">
-          <!-- sg: container needed for map 1.31.2021 -->
-          <div id="map-container">
-            <div id="mapid"></div>
-          </div>        
+  <header class="green lighten-4">
+    <h2 id="park-chosen" class="white" 
+      style="margin:0; padding-top:1%; padding-bottom:1%"></h2>
+    <!-- vll 1/31: park img in one col, map in the other -->
+    <!-- adding valign-wrapper prevents wrapping so -->
+    <!-- mediaquery in css is used to stack img and map -->
+    <!-- js adds class .responsive-img to park img -->
+    <div class="container row valign-wrapper">
+      <div id="park-chosen-container" class="col s12 m6 l6">
+        <!-- js puts park image here -->
+      </div>
+      <div class="col s12 m6 l6 ">
+        <!-- sg: container needed for map 1.31.2021 -->
+        <div id="map-container">
+          <div id="mapid"></div>
         </div>
       </div> <!--  row -->
     </div>
@@ -130,7 +135,7 @@
       <!-- Card 0 -->
       <div class="row">
         <div class="col s12 m4 l2 offset-l1">
-          <div id="card0" style="text-align:center" class="card green darken-2">
+          <div id="card0" style="text-align:center" class="card green darken-1">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-0"></p>
               <img id="card-icon-0" alt="weather icon">
@@ -141,7 +146,7 @@
 
         <!-- Card 1 -->
         <div class="col s12 m4 l2">
-          <div id="card1" style="text-align:center" class="card green darken-2">
+          <div id="card1" style="text-align:center" class="card green darken-1">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-1"></p>
               <img id="card-icon-1" alt="weather icon">
@@ -152,7 +157,7 @@
 
         <!-- Card 2 -->
         <div class="col s12 m4 l2">
-          <div id="card2" style="text-align:center" class="card green darken-2">
+          <div id="card2" style="text-align:center" class="card green darken-1">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-2"></p>
               <img id="card-icon-2" alt="weather icon">
@@ -163,7 +168,7 @@
 
         <!-- Card 3 -->
         <div class="col s12 m4 l2">
-          <div id="card3" style="text-align:center" class="card green darken-2">
+          <div id="card3" style="text-align:center" class="card green darken-1">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-3"></p>
               <img id="card-icon-3" alt="weather icon">
@@ -174,7 +179,7 @@
 
         <!-- Card 4 -->
         <div class="col s12 m4 l2">
-          <div id="card4" style="text-align:center" class="card green darken-2">
+          <div id="card4" style="text-align:center" class="card green darken-1">
             <div class="card-content white-text">
               <p class="card-title" id="card-date-4"></p>
               <img id="card-icon-4" alt="weather icon">

@@ -1,0 +1,37 @@
+
+
+/* sg: for map 1.31.2021 */
+#map-container {
+  width: 95%;
+}
+/* sg: for map 1.31.2021 */
+#mapid { height: 180px; }
+
+#fee-title, #fee-description-title, #operating-hours-title, #exception-hours-title {
+  font-weight: bold;
+}
+
+/* stephanie added styling 1.30.2021 - to center image */
+#park-chosen-container {
+  display: block;
+  text-align: center;
+}
+
+/* stephanie added styling 1.30.2021 - styling of park image appearing after park name */
+#park-chosen-container img {
+  height: 300px;
+  padding: 10px;
+}
+
+#webcam-container {
+  text-align: center;
+}
+
+
+
+/* vl 1/31 stack map and park img
+on small screen */
+@media screen and (max-width:768px){
+  .valign-wrapper {
+  display: inline-block;}
+  }
