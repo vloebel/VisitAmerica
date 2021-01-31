@@ -162,6 +162,21 @@ var displayWebcam = function() {
     };
 };
 
+// sg: 1.31.2021 - gets the map
+var getMap = function(latitude,longitude) {
+    // sg: required for leaflet map 1.31.2021
+    var mymap = L.map('mapid').setView([latitude, longitude], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ'
+    }).addTo(mymap);
+}
+
 var fetchCampgrounds = function(parkCode) {
     // gets campgrounds from a particular national park
     var apiCampgrounds = "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
@@ -312,6 +327,7 @@ var getParkChosen = function() {
     }
     // stephanie added displayFee function call 1.30.2021
     displayFeeHours(park.fee, park.feeTitle, park.operatingHours, park.exceptionHours);
+    getMap(park.latitude, park.longitude);
     fetchCampgrounds(park.parkCode);
     fetchVisitorCenter(park.parkCode);
     fetchWebcams(park.parkCode);
@@ -340,6 +356,20 @@ var displayForecast = function () {
     }
     // end of displayForecast Function
 }
+var getMap = function(latitude,longitude) {
+    // sg: required for leaflet map 1.31.2021
+    var mymap = L.map('mapid').setView([latitude, longitude], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ'
+    }).addTo(mymap);
+}
+
 
 var fetchForecast = function (latitude, longitude) {
     // gets 5-day forecast
@@ -391,12 +421,7 @@ var fetchForecast = function (latitude, longitude) {
 // noWeatherEl.style.display = "block";
 // visitorCenterErrorEl.style.display = "block";
 
-
-
-
-
-
-
 getParkChosen();
+
 
 returnToSearchBtnEl.addEventListener("click", backToSearch);
