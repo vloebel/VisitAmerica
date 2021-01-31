@@ -41,9 +41,12 @@ h1, h2 {
   width: 50px;
 }
 
-#blank {
-  font-style: italic;
+/* sg: for map 1.31.2021 */
+#map-container {
+  width: 80%;
 }
+/* sg: for map 1.31.2021 */
+#mapid { height: 180px; }
 
 #fee-title, #fee-description-title, #operating-hours-title, #exception-hours-title {
   font-weight: bold;
