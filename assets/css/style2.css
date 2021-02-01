@@ -27,11 +27,36 @@
   text-align: center;
 }
 
+/************ Large Devices ************************/
+/* Large  devices (screens above Medium size)      */
+.card{
+  border:1px solid black; 
+  min-height:200px;
+  max-height:200px;  }
 
 
-/* vl 1/31 stack map and park img
-on small screen */
-@media screen and (max-width:768px){
+/************ Medium Devices ************************/
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
   .valign-wrapper {
-  display: inline-block;}
-  }
+    display: inline-block;}
+
+    .card{
+      border:1px solid black; 
+      min-height:200px;
+      max-height:200px;      }
+    
+} 
+
+/************ Small Devices ************************/
+@media only screen and (max-width: 414px) {
+  
+
+  .card{
+    border:1px solid black;
+    min-height:200px;
+    max-height:200px;
+    }
+  
+} 
+
