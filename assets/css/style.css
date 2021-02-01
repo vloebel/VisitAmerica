@@ -38,17 +38,12 @@ h1, h2 {
 }
 
 footer {
-  position: fixed;
   background-color: white;
   color:rgb(19, 77, 22);
   border-top: 1px solid ;
-
   border-top-color:rgb(19, 77, 22);
-  left: 0;
-  bottom: 0;
-  width: 100%;
   text-align: center;
-  padding: 2px;
+  padding-top: 2px;
 }
 
 /* sg: for map 1.31.2021 */
