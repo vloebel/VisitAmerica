@@ -23,12 +23,27 @@
 }
 /* licensed photo "Flowers on UNESCO" copyright theraja  */
 
+nav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
 nav a{
   padding: 1%,0;
 }
 
 h1, h2 {
   text-align:center;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 3px;
 }
 
 /* sg: for map 1.31.2021 */
