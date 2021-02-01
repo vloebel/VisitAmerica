@@ -20,8 +20,7 @@
     crossorigin="" />
 
   <link rel="stylesheet" href="./assets/css/style.css" />
-  <!-- style2.css is for this file only -->
-  <link rel="stylesheet" href="./assets/css/style2.css" />
+  <!-- style2.css removed -->
   
   <title>Park Information</title>
 </head>
@@ -33,10 +32,10 @@
     <div id="return-home" style="padding-left: 1%" 
         class="nav-wrapper green darken-3 white-text z-depth-3">
       <ul class="left">
-        <li class="brand-logo">Visit America</li>
+        <li class="visit-america-logo">Visit America</li>
       </ul>
-      <ul  style="padding-right: 1%" class="right">
-        <li id="return-to-search" style="margin-top:15%"
+      <ul  style="padding-right: 1%" class="right nav-button-ul">
+        <li id="return-to-search" 
             class="waves-effect waves-light green darken-3 white text z-depth-4 btn">Return
         </li>
       </ul>
@@ -46,14 +45,14 @@
   <!-- Stephanie added 1.30.2021 - id park-chosen-container needed to append image -->
   <!-- after park name -->
   <header class="green lighten-4 z-depth-1">
-    <h2 id="park-chosen" class="white" 
+    <h3 id="park-chosen" class="white center-align" 
       style="margin:0; padding-top:1%; padding-bottom:1%"></h2>
     <!-- vll 1/31: park img in one col, map in the other -->
     <!-- adding valign-wrapper prevents wrapping so -->
     <!-- mediaquery in css is used to stack img and map -->
     <!-- js adds class .responsive-img to park img -->
     <div class="container row valign-wrapper">
-      <div id="park-chosen-container" class="col s12 m6 l6">
+      <div id="park-chosen-container" style="margin:auto" class="col s12 m6 l6 ">
         <!-- js puts park image here -->
       </div>
       <div class="col s12 m6 l6 ">
@@ -205,8 +204,9 @@
 
 
   </main>
-  
-  <footer class="green darken-3 white-text">Made with blood, sweat, and many zoom meetings by: Cori, Jennifer, Stephanie, and Vicky. &#169 2021</footer>
+  <footer>Made with blood, sweat, and many zoom meetings by: Cori, Jennifer, Stephanie, and Vicky. &#169 2021</footer>
+
+  <!-- <footer class="green darken-3 white-text">Made with blood, sweat, and many zoom meetings by: Cori, Jennifer, Stephanie, and Vicky. &#169 2021</footer> -->
 
   <!-- moment.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
