@@ -1,5 +1,7 @@
 // script for national park & monument information
 var parkChosenEl = document.querySelector("#park-chosen");
+// vl 1/31: return Home for navbar title click
+var returnHomeEl = document.querySelector("#return-home");
 var returnToSearchBtnEl = document.querySelector("#return-to-search");
 var campgroundListEl = document.querySelector("#campground-list");
 var visitorCenterEl = document.querySelector("#visitor-center");
@@ -28,6 +30,8 @@ var parkExceptionHoursEl = document.querySelector("#exception-hours");
 var parkExceptionHoursTitleEl = document.querySelector("#exception-hours-title");
 // gets webcam div to add button if a webcam is available
 var webcamContainerEl = document.querySelector("#webcam-container");
+// gets navbar buttons
+var buttonContainerEl = document.querySelector("#button-container");
 
 // park info pulled from localStorage
 var park = {
@@ -45,7 +49,10 @@ var park = {
 };
 
 // campground array
-var campgrounds = [];
+var campgrounds = {
+    name: [],
+    url: []
+};
 
 // visitorCenter information
 var visitorCenter = {
@@ -98,9 +105,20 @@ var displayCampgrounds = function() {
     
     if (campgrounds) {
         // console.log("in displayParks", parks.parkName.length);
-        for (i =0; i < campgrounds.length; i++) {
+        for (i =0; i < campgrounds.name.length; i++) {
             var campgroundListItem = document.createElement("li");
-            campgroundListItem.textContent = campgrounds[i];
+            // add link to campgrounds
+            if (campgrounds.url[i]) {
+                campgroundLink = document.createElement("a");
+                campgroundLink.textContent = campgrounds.name[i];
+                campgroundLink.setAttribute("href", campgrounds.url[i]);
+                campgroundLink.setAttribute("target", "_blank");
+                campgroundLink.id="campground-link";
+                campgroundListItem.appendChild(campgroundLink);
+            } else {
+                campgroundListItem.textContent = campgrounds.name[i];
+            }
+            console.log("campgrounds in displayCampgrounds", campgrounds);
             campgroundListEl.appendChild(campgroundListItem);
         }
     // let user know there were no campgrounds for this park
@@ -151,6 +169,21 @@ var displayVisitorCenter = function() {
 
 var displayWebcam = function() {
     if (webcam.url) {
+        webcamButtonLi = document.createElement("li");
+        webcamButton = document.createElement("a");
+        webcamButton.id = "webcam-button";
+        webcamButton.textContent = webcam.title + " webcam";
+        webcamButton.setAttribute("class", "waves-effect waves-light green darken-3 white text btn");
+        webcamButton.setAttribute("href", "webcam.url");
+        webcamButton.setAttribute("target", "_blank");
+        webcamButtonLi.appendChild(webcamButton);
+        buttonContainerEl.prepend(webcamButton);
+
+    };
+// end of displayWebcam
+};
+var displayWebcamb = function() {
+    if (webcam.url) {
         webcamButton = document.createElement("a");
         webcamButton.id = "webcam-button";
         webcamButton.textContent = webcam.title + " webcam";
@@ -160,6 +193,7 @@ var displayWebcam = function() {
         });
         webcamContainerEl.appendChild(webcamButton);
     };
+// end of displayWebcamb
 };
 
 // sg: 1.31.2021 - gets the map
@@ -184,20 +218,24 @@ var fetchCampgrounds = function(parkCode) {
         return response.json();
     })
     .then(function(data) {
-        //console.log(data.data);
+        console.log("campgrounds", data.data);
       // vl: start with a no campground message and then overwrite if good
       // that catches both bad data and good data with no name maybe?
-      campgrounds[0] = "No campground information available";
+      campgrounds.name[0] = "No campground information available";
         if (data.data) {
             for (i = 0; i < data.data.length; i++) {
-                campgrounds[i] = data.data[i].name;
+                campgrounds.name[i] = data.data[i].name;
+                console.log("campground url", data.data[i].url);
+                if (data.data[i].url) {
+                    campgrounds.url[i] = data.data[i].url;
+                }
             }
           }
         displayCampgrounds();
     })
     .catch(function(error) {
         console.error(error);
-      campgrounds[0] = "No campground information available";
+      campgrounds.name[0] = "No campground information available";
       displayCampgrounds();
 
     });
@@ -323,6 +361,9 @@ var getParkChosen = function() {
         var parkImage = document.createElement("img");
         parkImage.setAttribute("src", park.imageUrl);
         parkImage.setAttribute("alt", park.imageAlt);
+        // vl 1/31: responsive-img Materialize class limits img to 100% of col width 
+        parkImage.classList.add("responsive-img");
+        parkImage.setAttribute("alt", park.imageAlt);
         parkChosenContainerEl.appendChild(parkImage);
     }
     // stephanie added displayFee function call 1.30.2021
@@ -409,5 +450,6 @@ var fetchForecast = function (latitude, longitude) {
 
 getParkChosen();
 
-
-returnToSearchBtnEl.addEventListener("click", backToSearch);
+// vl 1/31 - Clicking title in nav bar also returns to home page
+returnHomeEl.addEventListener("click", backToSearch);
+returnToSearchBtnEl.addEventListener("click", backToSearch); 
