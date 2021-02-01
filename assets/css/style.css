@@ -31,16 +31,6 @@ h1, h2 {
   text-align:center;
 }
 
-#search-btn {
-  border: 2px solid #6aa0f1;
-  border-radius: 6px;
-  background-color: #0d5cd3;
-  color: rgb(236, 232, 232);
-  text-align: center;
-  height: 50px;
-  width: 50px;
-}
-
 /* sg: for map 1.31.2021 */
 #map-container {
   width: 80%;
@@ -82,3 +72,12 @@ h1, h2 {
   text-align: center;
 }
 
+#campground-link {
+  background-color: transparent;
+  color: black;
+}
+
+#campground-link:hover {
+  color: darkolivegreen;
+  cursor: pointer;
+}
