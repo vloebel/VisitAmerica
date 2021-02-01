@@ -7,15 +7,17 @@ Developers:
 * [Cori Cathemer](https://github.com/coricathemer): Design, HTML, CSS
 * [Jennifer Molina](https://github.com/JenMol86): HTML, Testing
 
-[vloebel.github.io/happycamper](https://vloebel.github.io/happycamper/) 
+application URL: [vloebel.github.io/happycamper](https://vloebel.github.io/happycamper/) 
 
 **Modification History**  
 
 * -- 
- 
+## Notes:
+repo/application name will be changed from "happy camper" to "Visit America" after class presentation. 
+
 
 ## Overview
-Visit America delivers the wonders of the National Park Service to the user by providing information about the national parks and monuments in the united states. Selecting a park displays a page of information about its visitor's center, public campgrounds, and a link to the webcam for that park if one exists. The page also displays the park's five-day weather forecast. The user's most recent searches are saved in local-storage.
+Visit America delivers the wonders of the National Park Service by providing information about the national parks and monuments in the united states. Selecting a park displays a page of information about its visitor's center, public campgrounds, and a link to the webcam for that park if one exists. The page also displays the park's five-day weather forecast. The user's most recent searches are saved in local-storage.
 
 ## APIs Used
 * [National Park Service Developer Resources](https://www.nps.gov/subjects/developer/index.htm)
@@ -43,7 +45,7 @@ Visit America delivers the wonders of the National Park Service to the user by p
 * Selecting a state displays a list of the parks in that state. 
 * Clicking a park opens a second web page displaying: 
   * Park name
-  * An image taken from the park api 
+  * An image taken from the park API 
   * A map generated from the park's latitude and longitude
   * A clickable button that links to the park's webcam 
   * Public campgrounds associated with the park
@@ -57,16 +59,17 @@ Visit America delivers the wonders of the National Park Service to the user by p
 ![large screen main page](./assets/img/demo.large-screen.01.JPG)
 
 ### Page 2: Park Information 
+### Top screen shot
 ![large screen park info page-top](./assets/img/demo.large-screen.02.JPG)
-
+### Screen after scrolling down
 ![large screen park infor page-bottom](./assets/img/demo.large-screen.03.JPG)
 
-### Small Screen UI Main Page
+### Top of page 2 on small screen
 ![small screen main page](./assets/img/demo.small-screen.01.JPG)
 
-### Small Screen UI Park Information
+### Screen shot of middle of page 2 on small screen
 ![small screen park info page-top](./assets/img/demo.small-screen.02.JPG)
 
-### Small Screen UI Park Information
+### Weather cards on page 2 small screen
 ![small screen park info page-top](./assets/img/demo.small-screen.03.JPG)
 
