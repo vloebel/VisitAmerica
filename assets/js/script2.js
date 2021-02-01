@@ -172,12 +172,12 @@ var displayWebcam = function() {
         webcamButtonLi = document.createElement("li");
         webcamButton = document.createElement("a");
         webcamButton.id = "webcam-button";
-        webcamButton.textContent = webcam.title + " webcam";
+        webcamButton.textContent = "webcam";
         webcamButton.setAttribute("class", "waves-effect waves-light green darken-3 white text btn");
-        webcamButton.setAttribute("href", "webcam.url");
+        webcamButton.setAttribute("href", webcam.url);
         webcamButton.setAttribute("target", "_blank");
         webcamButtonLi.appendChild(webcamButton);
-        buttonContainerEl.prepend(webcamButton);
+        buttonContainerEl.appendChild(webcamButton);
 
     };
 // end of displayWebcam
