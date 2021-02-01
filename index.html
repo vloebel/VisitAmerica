@@ -16,18 +16,25 @@
 
 <body>
   <nav>
-    <div id="HC-home" style="padding-left: 1%" class="nav-wrapper green darken-4 white-text">
-      <a href="#" class="brand-logo ">Visit America</a>
+        <!-- <There are no links in the nav bar because we go to page 2 by clicking a>
+          park and return through event listeners on visit america title and return btn -->
+    <div id="HC-home" style="padding-left: 1%" 
+        class="nav-wrapper green darken-3 white-text z-depth-3">
+      <ul class="left">
+        <li class="brand-logo">Visit America</li>
+      </ul>
     </div>
   </nav>
 
-  <div class="hero ">
+  <div class="hero z-depth-2">
     <!-- hero is in css file -->
   </div>
 
-  <main class="container">
-    <h4>Visit America: Where we bring America to you</h4>
-    <p>Craving adventure, with a global pandemic raining on your parade? Here at Visit America we bring the beauty of the National parks to the comfort of your home. Search a state below to see a glimpse into the magestic national parks and monuments of the United States. </p>
+  <main style="padding-bottom:1%" class="container">
+    <h4>Bringing America to You</h4>
+    <p>Craving adventure, with a global pandemic raining on your parade? Visit America delivers our nation's history and natural beauty to the comfort of your home. Select a state below to peek into the majestic world of wilderness and monuments that make up the United States National Park System. </p>
+    <!-- SAVED: <h4>Visit America: Where we bring America to you</h4>
+    <p>Craving adventure, with a global pandemic raining on your parade? Here at Visit America we bring the beauty of the National parks to the comfort of your home. Search a state below to see a glimpse into the magestic national parks and monuments of the United States. </p> -->
     <div id="park-search" class="input-field col s6">
       <select id="state-name">
         <option id="blank">Choose a State</option>
@@ -99,8 +106,9 @@
 
     </div>
 
+    <footer class="green darken-3 white-text">Made with blood, sweat, and many zoom meetings by: Cori, Jennifer, Stephanie, and Vicky.  &#169 2021</footer>
+    
   </main>
-
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <!-- Compiled and minified JavaScript -->
@@ -108,13 +116,13 @@
  
   <script src="./assets/js/script.js"></script>
 
+<!-- Select menu initializer for Materialize -->
   <script>
     $(document).ready(function () {
       $('select').formSelect();
     });
   </script>
 
-  <footer class="nav-wrapper green darken-4 white-text">Made with blood, sweat, and many zoom meetings by: Stepanie, Vicky, Jennifer, and Cori.</footer>
 </body>
 
 </html>

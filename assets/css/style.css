@@ -1,11 +1,4 @@
-:root {
-  --light: #f9eded;
-  --light-blue: #e3e7e9;
-  --medium-blue: #c0d6e4;
-  --dark-blue: #29364f;
-  --dark: #181b26;
-  --weather-card:rgb(252, 216, 150);
-}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -43,7 +36,7 @@ footer {
   bottom: 0;
   width: 100%;
   text-align: center;
-  padding: 3px;
+  padding: 2px;
 }
 
 /* sg: for map 1.31.2021 */

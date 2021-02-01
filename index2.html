@@ -28,10 +28,16 @@
 
 <body>
   <nav>
-    <div style="padding-left: 1%" class="nav-wrapper green darken-4 white-text z-depth-3">
-      <a href="#" id="return-home" class="brand-logo ">Visit America</a>
-      <ul id="button-container" style="padding-right: 1%" class="right">
-        <li><a id="return-to-search" href="#" class="waves-effect waves-light green darken-3 white text btn">Return</a>
+    <!-- <There are no links in the nav bar because we go to page 2 by clicking a>
+          park and return through event listeners on visit america title and return btn -->
+    <div id="return-home" style="padding-left: 1%" 
+        class="nav-wrapper green darken-3 white-text z-depth-3">
+      <ul class="left">
+        <li class="brand-logo">Visit America</li>
+      </ul>
+      <ul  style="padding-right: 1%" class="right">
+        <li id="return-to-search" style="margin-top:15%"
+            class="waves-effect waves-light green darken-3 white text z-depth-4 btn">Return
         </li>
       </ul>
     </div>
@@ -56,6 +62,10 @@
           <div id="mapid"></div>
         </div>
       </div> <!--  row -->
+      
+    </div>
+    <div row id="button-container" style="padding-bottom:1%" class="center-align">
+      <!-- a row for the webcam button -->
     </div>
   </header>
   <!-- possibly include a picture or quote if we can grab one from somewhere -->
@@ -196,7 +206,7 @@
 
   </main>
   
-  <footer class="nav-wrapper green darken-4 white-text">Made with blood, sweat, and many zoom meetings by: Stepanie, Vicky, Jennifer, and Cori.</footer>
+  <footer class="green darken-3 white-text">Made with blood, sweat, and many zoom meetings by: Cori, Jennifer, Stephanie, and Vicky. &#169 2021</footer>
 
   <!-- moment.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

@@ -172,7 +172,7 @@ var displayWebcam = function() {
         webcamButtonLi = document.createElement("li");
         webcamButton = document.createElement("a");
         webcamButton.id = "webcam-button";
-        webcamButton.textContent = "webcam";
+        webcamButton.textContent = webcam.title + " webcam";
         webcamButton.setAttribute("class", "waves-effect waves-light green darken-3 white text btn");
         webcamButton.setAttribute("href", webcam.url);
         webcamButton.setAttribute("target", "_blank");
