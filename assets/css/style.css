@@ -1,11 +1,4 @@
-:root {
-  --light: #f9eded;
-  --light-blue: #e3e7e9;
-  --medium-blue: #c0d6e4;
-  --dark-blue: #29364f;
-  --dark: #181b26;
-  --weather-card:rgb(252, 216, 150);
-}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -23,26 +16,63 @@
 }
 /* licensed photo "Flowers on UNESCO" copyright theraja  */
 
+nav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
 nav a{
   padding: 1%,0;
 }
+ .visit-america-logo{
+   font-family:Verdana, Geneva, Tahoma, sans-serif;
+   font-size:1.75em;
+   text-align:left
 
+ }
+ 
 h1, h2 {
   text-align:center;
 }
 
-#search-btn {
-  border: 2px solid #6aa0f1;
-  border-radius: 6px;
-  background-color: #0d5cd3;
-  color: rgb(236, 232, 232);
+footer {
+  position: fixed;
+  background-color: white;
+  color:rgb(19, 77, 22);
+  border-top: 1px solid ;
+
+  border-top-color:rgb(19, 77, 22);
+  left: 0;
+  bottom: 0;
+  width: 100%;
   text-align: center;
-  height: 50px;
-  width: 50px;
+  padding: 2px;
+}
+
+/* sg: for map 1.31.2021 */
+#map-container {
+  width: 80%;
+}
+/* sg: for map 1.31.2021 */
+#mapid { height: 180px; }
+
+#fee-title, #fee-description-title, #operating-hours-title, #exception-hours-title {
+  font-weight: bold;
 }
 
 #park-history {
-  color: orange;
+  color: rgba(41, 109, 75, 0.623);
+}
+
+#park-history li:hover {
+  color: darkolivegreen;
+  cursor: pointer;
+}
+
+#park-list li:hover {
+  color: darkolivegreen;
+  cursor: pointer;
 }
 
 /* stephanie added styling 1.30.2021 - to center image */
@@ -57,5 +87,69 @@ h1, h2 {
   padding: 10px;
 }
 
+#webcam-container {
+  text-align: center;
+}
 
+#campground-link {
+  background-color: transparent;
+  color: black;
+}
+
+#campground-link:hover {
+  color: darkolivegreen;
+  cursor: pointer;
+}
+
+.nav-button-ul{
+padding-top:1em;
+}
+
+/* vl 1/31: added mediaqueries and merged from css2
+/************ Large Devices ************************/
+/* Large  devices (screens above Medium size)      */
+.card{
+  border:1px solid black; 
+  min-height:200px;
+  max-height:200px;  }
+
+
+/************ Medium Devices ************************/
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+  .valign-wrapper {
+    display: inline-block;
+  }
+
+  
+
+    .card{
+      border:1px solid black; 
+      min-height:200px;
+      max-height:200px;      
+    }
+    
+} 
+
+/************ Small Devices ************************/
+@media only screen and (max-width: 414px) {
+
+  
+  .nav-button-ul{
+    padding-top: .5em;
+    padding-right: .5em;
+    }
+    
+  
+  footer {
+    display: none;
+}
+
+  .card{
+    border:1px solid black;
+    min-height:200px;
+    max-height:200px;
+    }
+  
+} 
 

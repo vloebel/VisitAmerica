@@ -1,5 +1,7 @@
 // script for national park & monument information
 var parkChosenEl = document.querySelector("#park-chosen");
+// vl 1/31: return Home for navbar title click
+var returnHomeEl = document.querySelector("#return-home");
 var returnToSearchBtnEl = document.querySelector("#return-to-search");
 var campgroundListEl = document.querySelector("#campground-list");
 var visitorCenterEl = document.querySelector("#visitor-center");
@@ -8,12 +10,28 @@ var visitorCenterErrorEl = document.querySelector("#visitor-center-error");
 // New 1/29 - fiveDayEl used to show/hide weather display
 var fiveDayEl = document.querySelector("#five-day-forecast");
 var noWeatherEl = document.querySelector("#no-weather-forecast");
-// stephanie added 1.30.2021 - needed to append image after park name
+// appends image after park name
 var parkChosenContainerEl = document.querySelector("#park-chosen-container");
-// stephanie added 1.30.2021 - needed to append park fee
+//  appends park fee
 var parkFeeEl = document.querySelector("#park-fee");
-// stephanie added 1.30.2021 - needed to append park fee description
-var parkFeeDescrEl = document.querySelector("#park-fee-description");
+// gets span element title for park fee
+var parkFeeTitleEl = document.querySelector("#fee-title");
+// appends park fee description
+var parkFeeDescrEl = document.querySelector("#fee-description");
+// gets span element title for park fee description
+var parkFeeDescrTitleEl = document.querySelector("#fee-description-title");
+// appends park operating hours description
+var parkOperatingHoursEl = document.querySelector("#operating-hours");
+// gets span element title for operating hours
+var parkOperatingHoursTitleEl = document.querySelector("#operating-hours-title");
+// appends park exceptions to operating hours description
+var parkExceptionHoursEl = document.querySelector("#exception-hours");
+// gets span element title for operating hours
+var parkExceptionHoursTitleEl = document.querySelector("#exception-hours-title");
+// gets webcam div to add button if a webcam is available
+var webcamContainerEl = document.querySelector("#webcam-container");
+// gets navbar buttons
+var buttonContainerEl = document.querySelector("#button-container");
 
 // park info pulled from localStorage
 var park = {
@@ -25,11 +43,17 @@ var park = {
     feeTitle: "",
     feeDescr: "",
     imageUrl: "",
-    imageAlt: ""
+    imageAlt: "",
+    operatingHours: "",
+    exceptionHours: ""
 };
 
 // campground array
-var campgrounds = [];
+var campgrounds = {
+    name: [],
+    url: []
+};
+
 // visitorCenter information
 var visitorCenter = {
     name: "",
@@ -37,20 +61,42 @@ var visitorCenter = {
     imageUrl: "",
     imageAlt: ""
 }; 
+
+// webcam information
+var webcam = {
+    title: "",
+    url: ""
+};
+
 // forecasted park weather information
 var parkForecast = {
     forecastDate: [],
     forecastTemp: [],
     forecastIcon: []
 };
+
 // from localStorage
 var parkHistory = [];
 
 // stephanie added 1.30.2021 to display park entrance fee
-var displayFee = function(fee, feeDescr) {
+var displayFeeHours = function(fee, feeDescr, operatingHours, exceptionHours) {
     if (fee) {
-        parkFeeEl.textContent = "Entrance Fee: " + fee;
+        parkFeeTitleEl.textContent = "Entrance Fee: "
+        console.log(parkFeeTitleEl)
+        parkFeeEl.textContent = fee;
+    }
+    if (feeDescr) {
+        parkFeeDescrTitleEl.textContent = "Description: "
         parkFeeDescrEl.textContent = feeDescr;
+    }
+    // stephanie added operating and exception hours 1.30.2021
+    if (operatingHours) {
+        parkOperatingHoursTitleEl.textContent = "Operating Hours: ";
+        parkOperatingHoursEl.textContent = operatingHours;
+        if (exceptionHours) {
+            parkExceptionHoursTitleEl.textContent = "Exceptions to Hours: ";
+            parkExceptionHoursEl.textContent = exceptionHours;
+        }
     }
 }
 
@@ -59,9 +105,20 @@ var displayCampgrounds = function() {
     
     if (campgrounds) {
         // console.log("in displayParks", parks.parkName.length);
-        for (i =0; i < campgrounds.length; i++) {
+        for (i =0; i < campgrounds.name.length; i++) {
             var campgroundListItem = document.createElement("li");
-            campgroundListItem.textContent = campgrounds[i];
+            // add link to campgrounds
+            if (campgrounds.url[i]) {
+                campgroundLink = document.createElement("a");
+                campgroundLink.textContent = campgrounds.name[i];
+                campgroundLink.setAttribute("href", campgrounds.url[i]);
+                campgroundLink.setAttribute("target", "_blank");
+                campgroundLink.id="campground-link";
+                campgroundListItem.appendChild(campgroundLink);
+            } else {
+                campgroundListItem.textContent = campgrounds.name[i];
+            }
+            console.log("campgrounds in displayCampgrounds", campgrounds);
             campgroundListEl.appendChild(campgroundListItem);
         }
     // let user know there were no campgrounds for this park
@@ -75,27 +132,27 @@ var displayCampgrounds = function() {
 
 var displayVisitorCenter = function() {
   if (visitorCenter) {
-      // vl 1/29: tried to write directly to the h4 in the index2 file but
-      // I was stepping on something - so I'm just going to hide it if
-      // we are displaying this visitor center. Keep in mind the "h4" element
-      // is hardcoded here so if we change the other ones it won't match
+    // vl 1/29: tried to write directly to the h4 in the index2 file but
+    // I was stepping on something - so I'm just going to hide it if
+    // we are displaying this visitor center. Keep in mind the "h4" element
+    // is hardcoded here so if we change the other ones it won't match
     visitorCenterErrorEl.style.display = "none";
     // vl: I'm really stuck here - not sure I understand the code and
     // no matter what I do we either seem to abort in the weather section
     // or fall through here - never get to the else part i dont' think
     console.log('visitor center object: ${visitorCenter');
-        var visitorCenterName = document.createElement("h4");
-        visitorCenterName.textContent = visitorCenter.name;
-        visitorCenterName.id = "visitor-center-name";
-        var visitorCenterInfo = document.createElement("p");
-        visitorCenterInfo.textContent = visitorCenter.description;
-        visitorCenterInfo.id = "visitor-center-info";
-        var visitorCenterImage = document.createElement("img");
-        visitorCenterImage.id = "visitor-center-image";
+    var visitorCenterName = document.createElement("h4");
+    visitorCenterName.textContent = visitorCenter.name;
+    visitorCenterName.id = "visitor-center-name";
+    var visitorCenterInfo = document.createElement("p");
+    visitorCenterInfo.textContent = visitorCenter.description;
+    visitorCenterInfo.id = "visitor-center-info";
+    var visitorCenterImage = document.createElement("img");
+    visitorCenterImage.id = "visitor-center-image";
     visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
     visitorCenterImage.setAttribute("height", "300px");
 
-        visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
+    visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
     }
   else {
     visitorCenterErrorEl.style.display = "block";
@@ -110,6 +167,50 @@ var displayVisitorCenter = function() {
 // end of displayVisitorCenter function    
 };
 
+var displayWebcam = function() {
+    if (webcam.url) {
+        webcamButtonLi = document.createElement("li");
+        webcamButton = document.createElement("a");
+        webcamButton.id = "webcam-button";
+        webcamButton.textContent = webcam.title + " webcam";
+        webcamButton.setAttribute("class", "waves-effect waves-light green darken-3 white text btn");
+        webcamButton.setAttribute("href", webcam.url);
+        webcamButton.setAttribute("target", "_blank");
+        webcamButtonLi.appendChild(webcamButton);
+        buttonContainerEl.appendChild(webcamButton);
+
+    };
+// end of displayWebcam
+};
+var displayWebcamb = function() {
+    if (webcam.url) {
+        webcamButton = document.createElement("a");
+        webcamButton.id = "webcam-button";
+        webcamButton.textContent = webcam.title + " webcam";
+        webcamButton.setAttribute("class", "waves-effect waves-light green darken-3 white text btn");
+        webcamButton.addEventListener("click", function(event) {
+            window.open(webcam.url, "_blank");
+        });
+        webcamContainerEl.appendChild(webcamButton);
+    };
+// end of displayWebcamb
+};
+
+// sg: 1.31.2021 - gets the map
+var getMap = function(latitude,longitude) {
+    // sg: required for leaflet map 1.31.2021
+    var mymap = L.map('mapid').setView([latitude, longitude], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1Ijoic2dpZWwiLCJhIjoiY2trbDYwemFzMDFpZTJ3czNhMG5hMjRobSJ9.dmjQQoye-1mnJgtfJPLIWQ'
+    }).addTo(mymap);
+}
+
 var fetchCampgrounds = function(parkCode) {
     // gets campgrounds from a particular national park
     var apiCampgrounds = "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
@@ -117,20 +218,24 @@ var fetchCampgrounds = function(parkCode) {
         return response.json();
     })
     .then(function(data) {
-        //console.log(data.data);
+        console.log("campgrounds", data.data);
       // vl: start with a no campground message and then overwrite if good
       // that catches both bad data and good data with no name maybe?
-      campgrounds[0] = "No campground information available";
+      campgrounds.name[0] = "No campground information available";
         if (data.data) {
             for (i = 0; i < data.data.length; i++) {
-                campgrounds[i] = data.data[i].name;
+                campgrounds.name[i] = data.data[i].name;
+                console.log("campground url", data.data[i].url);
+                if (data.data[i].url) {
+                    campgrounds.url[i] = data.data[i].url;
+                }
             }
           }
         displayCampgrounds();
     })
     .catch(function(error) {
         console.error(error);
-      campgrounds[0] = "No campground information available";
+      campgrounds.name[0] = "No campground information available";
       displayCampgrounds();
 
     });
@@ -168,6 +273,36 @@ var fetchVisitorCenter = function(parkCode) {
     
     });
 // end of fetchVisitorCenter function
+};
+
+// gets a webcam if available at a national park or monument
+var fetchWebcams = function(parkCode) {
+    // gets national park webcams
+    var apiVisitorCenters = "https://developer.nps.gov/api/v1/webcams?q=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
+    fetch(apiVisitorCenters).then(function (response) {
+        return response.json();
+    })
+    .then(function(data) {
+        console.log("webcams", data.data);
+        
+        // take first webcam info available
+        if (data.data) {
+            if (data.data[0]) {
+                if (data.data[0].url) {
+                    webcam.title = data.data[0].title;
+                    webcam.url = data.data[0].url;
+                    displayWebcam();
+                };
+            };
+        };
+    })
+    .catch(function(error) {
+        console.error(error);
+        visitorCenterErrorEl.style.display = "block";
+        console.log("API Catch- visitor center fetch failed");
+    
+    });
+// end of fetchWebcams function
 };
 
 var backToSearch = function(event) {
@@ -218,17 +353,25 @@ var getParkChosen = function() {
     park.feeDescr = parkHistory[parkIndex].feeDescr;
     park.imageUrl = parkHistory[parkIndex].imageUrl;
     park.imageAlt = parkHistory[parkIndex].imageAlt;
+    // stephanie added operating and exception hours 1.30.2021
+    park.operatingHours = parkHistory[parkIndex].operatingHours;
+    park.exceptionHours = parkHistory[parkIndex].exceptionHours;
     // Stephanie added park image 01.30.2021
     if (park.imageUrl) {
         var parkImage = document.createElement("img");
         parkImage.setAttribute("src", park.imageUrl);
         parkImage.setAttribute("alt", park.imageAlt);
+        // vl 1/31: responsive-img Materialize class limits img to 100% of col width 
+        parkImage.classList.add("responsive-img");
+        parkImage.setAttribute("alt", park.imageAlt);
         parkChosenContainerEl.appendChild(parkImage);
     }
     // stephanie added displayFee function call 1.30.2021
-    displayFee(park.fee, park.feeTitle);
+    displayFeeHours(park.fee, park.feeTitle, park.operatingHours, park.exceptionHours);
+    getMap(park.latitude, park.longitude);
     fetchCampgrounds(park.parkCode);
     fetchVisitorCenter(park.parkCode);
+    fetchWebcams(park.parkCode);
     fetchForecast(park.latitude, park.longitude);
     
 };
@@ -305,12 +448,8 @@ var fetchForecast = function (latitude, longitude) {
 // noWeatherEl.style.display = "block";
 // visitorCenterErrorEl.style.display = "block";
 
-
-
-
-
-
-
 getParkChosen();
 
-returnToSearchBtnEl.addEventListener("click", backToSearch);
+// vl 1/31 - Clicking title in nav bar also returns to home page
+returnHomeEl.addEventListener("click", backToSearch);
+returnToSearchBtnEl.addEventListener("click", backToSearch); 
