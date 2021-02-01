@@ -23,12 +23,27 @@
 }
 /* licensed photo "Flowers on UNESCO" copyright theraja  */
 
+nav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
 nav a{
   padding: 1%,0;
 }
 
 h1, h2 {
   text-align:center;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 3px;
 }
 
 #search-btn {
@@ -39,17 +54,6 @@ h1, h2 {
   text-align: center;
   height: 50px;
   width: 50px;
-}
-
-/* sg: for map 1.31.2021 */
-#map-container {
-  width: 80%;
-}
-/* sg: for map 1.31.2021 */
-#mapid { height: 180px; }
-
-#fee-title, #fee-description-title, #operating-hours-title, #exception-hours-title {
-  font-weight: bold;
 }
 
 #park-history {
@@ -76,9 +80,5 @@ h1, h2 {
 #park-chosen-container img {
   height: 300px;
   padding: 10px;
-}
-
-#webcam-container {
-  text-align: center;
 }
 
