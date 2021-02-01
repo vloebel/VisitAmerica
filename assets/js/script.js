@@ -215,6 +215,8 @@ var fixParkName = function(parkName) {
     fixedParkName = parkName.replace(/[^a-zA-Z ]/g, "");
     return fixedParkName;
 }
+
+// fetches parks from the national park api
 var fetchParks = function (stateName) {
 
     initializeParks();

@@ -159,11 +159,6 @@ var displayVisitorCenter = function() {
     console.log("no visitor center information was available");
     // the error message is already there
     }
-    //     var visitorCenterInfo = document.createElement("textarea");
-    //     visitorCenterInfo.textContent = "There are no visitor centers for this park";
-
-    //     visitorCenterEl.appendChild(visitorCenterInfo);
-    // } 
 // end of displayVisitorCenter function    
 };
 
@@ -195,6 +190,22 @@ var displayWebcamb = function() {
     };
 // end of displayWebcamb
 };
+
+var displayForecast = function () {
+    // displays forecasted weather elements on page
+    for (i = 0; i < 5; i++) {
+        var cardContainerEl = document.querySelector("#card" + i.toString());
+        var cardDateEl = document.querySelector("#card-date-" + i.toString());
+        console.log("cardDateEl", cardDateEl);
+        cardDateEl.textContent = parkForecast.forecastDate[i];
+        var cardIconEl = document.querySelector("#card-icon-" + i.toString());
+        cardIconEl.src = "http://openweathermap.org/img/wn/" + parkForecast.forecastIcon[i] + "@2x.png";
+        var cardTempEl = document.querySelector("#card-temp-" + i.toString());
+        cardTempEl.textContent = parkForecast.forecastTemp[i];
+
+    }
+    // end of displayForecast Function
+}
 
 // sg: 1.31.2021 - gets the map
 var getMap = function(latitude,longitude) {
@@ -275,9 +286,8 @@ var fetchVisitorCenter = function(parkCode) {
 // end of fetchVisitorCenter function
 };
 
-// gets a webcam if available at a national park or monument
+// gets a webcam from the national park api
 var fetchWebcams = function(parkCode) {
-    // gets national park webcams
     var apiVisitorCenters = "https://developer.nps.gov/api/v1/webcams?q=" + parkCode + "&api_key=vRuVSXthFPHJlZJaS64mURPmJOnJUcmixeqKwanX";
     fetch(apiVisitorCenters).then(function (response) {
         return response.json();
@@ -305,6 +315,7 @@ var fetchWebcams = function(parkCode) {
 // end of fetchWebcams function
 };
 
+// returns user back to home page for another park search
 var backToSearch = function(event) {
     event.preventDefault();
     window.location.href = "./index.html";
@@ -321,6 +332,8 @@ var getParkHistory = function(){
     return retrievedParks; 
 };
 
+// returns the index of the park chosen from the parkHistory array because
+// we need some additional park chosen info available in parkHistory
 var getParkIndex = function(parkChosen) {
     // finds the park is already in parkHistory
     var parkIndex = -1;
@@ -356,7 +369,7 @@ var getParkChosen = function() {
     // stephanie added operating and exception hours 1.30.2021
     park.operatingHours = parkHistory[parkIndex].operatingHours;
     park.exceptionHours = parkHistory[parkIndex].exceptionHours;
-    // Stephanie added park image 01.30.2021
+    // stephanie added park image 01.30.2021
     if (park.imageUrl) {
         var parkImage = document.createElement("img");
         parkImage.setAttribute("src", park.imageUrl);
@@ -372,8 +385,7 @@ var getParkChosen = function() {
     fetchCampgrounds(park.parkCode);
     fetchVisitorCenter(park.parkCode);
     fetchWebcams(park.parkCode);
-    fetchForecast(park.latitude, park.longitude);
-    
+    fetchForecast(park.latitude, park.longitude);  
 };
 
 var initializeParkForecast = function() {
@@ -381,22 +393,6 @@ var initializeParkForecast = function() {
     parkForecast.forecastTemp.length = 0;
     parkForecast.forecastIcon.length = 0;
 };
-
-var displayForecast = function () {
-    // displays forecasted weather elements on page
-    for (i = 0; i < 5; i++) {
-        var cardContainerEl = document.querySelector("#card" + i.toString());
-        var cardDateEl = document.querySelector("#card-date-" + i.toString());
-        console.log("cardDateEl", cardDateEl);
-        cardDateEl.textContent = parkForecast.forecastDate[i];
-        var cardIconEl = document.querySelector("#card-icon-" + i.toString());
-        cardIconEl.src = "http://openweathermap.org/img/wn/" + parkForecast.forecastIcon[i] + "@2x.png";
-        var cardTempEl = document.querySelector("#card-temp-" + i.toString());
-        cardTempEl.textContent = parkForecast.forecastTemp[i];
-
-    }
-    // end of displayForecast Function
-}
 
 var fetchForecast = function (latitude, longitude) {
     // gets 5-day forecast
@@ -440,13 +436,6 @@ var fetchForecast = function (latitude, longitude) {
     });
 // end of fetchForecast function
 };
-
-///////////////////////////////////////////
-// vl 1/29: Set default display for show/hide headings
-
-// fiveDayEl.style.display = "none";
-// noWeatherEl.style.display = "block";
-// visitorCenterErrorEl.style.display = "block";
 
 getParkChosen();
 
