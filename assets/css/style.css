@@ -25,13 +25,23 @@ nav {
 nav a{
   padding: 1%,0;
 }
+ .visit-america-logo{
+   font-family:Verdana, Geneva, Tahoma, sans-serif;
+   font-size:1.75em;
+   text-align:left
 
+ }
 h1, h2 {
   text-align:center;
 }
 
 footer {
   position: fixed;
+  background-color: white;
+  color:rgb(19, 77, 22);
+  border-top: 1px solid ;
+
+  border-top-color:rgb(19, 77, 22);
   left: 0;
   bottom: 0;
   width: 100%;
@@ -90,6 +100,10 @@ footer {
   cursor: pointer;
 }
 
+.nav-button-ul{
+padding-top:1em;
+}
+
 /* vl 1/31: added mediaqueries and merged from css2
 /************ Large Devices ************************/
 /* Large  devices (screens above Medium size)      */
@@ -103,18 +117,32 @@ footer {
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
   .valign-wrapper {
-    display: inline-block;}
+    display: inline-block;
+  }
+
+  
 
     .card{
       border:1px solid black; 
       min-height:200px;
-      max-height:200px;      }
+      max-height:200px;      
+    }
     
 } 
 
 /************ Small Devices ************************/
 @media only screen and (max-width: 414px) {
+
   
+  .nav-button-ul{
+    padding-top: .5em;
+    padding-right: .5em;
+    }
+    
+  
+  footer {
+    display: none;
+}
 
   .card{
     border:1px solid black;
