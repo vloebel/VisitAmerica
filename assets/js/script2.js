@@ -151,6 +151,7 @@ var displayVisitorCenter = function() {
     visitorCenterImage.id = "visitor-center-image";
     visitorCenterImage.setAttribute("src", visitorCenter.imageUrl);
     visitorCenterImage.setAttribute("height", "300px");
+    visitorCenterImage.setAttribute("alt",visitorCenter.imageAlt);
 
     visitorCenterEl.append(visitorCenterName, visitorCenterInfo, visitorCenterImage);
     }
