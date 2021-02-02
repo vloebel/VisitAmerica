@@ -160,6 +160,17 @@ var displayParkHistory = function(parkHistory) {
     }    
 };
 
+document.getElementById("park-search").addEventListener("mouseenter", mouseEnter);
+document.getElementById("park-search").addEventListener("mouseleave", mouseLeave);
+
+function mouseEnter() {
+    document.getElementById("park-search").style.backgroundColor = "#d8e7d5";
+};
+
+function mouseLeave() {
+    document.getElementById("park-search").style.backgroundColor = "";
+};
+
 // displays parks on the page in the state user chose
 var displayParks = function() {
     

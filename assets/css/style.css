@@ -46,16 +46,21 @@ footer {
   padding-top: 2px;
 }
 
-#park-search{
+#park-search {
   position: relative;
 }
+
 
 /* sg: for map 1.31.2021 */
 #map-container {
   width: 80%;
 }
 /* sg: for map 1.31.2021 */
-#mapid { height: 180px; }
+#mapid { 
+  border: 1px solid rgb(19, 77, 22);
+  height: 300px; 
+  margin-top: 9px;
+}
 
 #fee-title, #fee-description-title, #operating-hours-title, #exception-hours-title {
   font-weight: bold;
@@ -84,7 +89,7 @@ footer {
 /* stephanie added styling 1.30.2021 - styling of park image appearing after park name */
 #park-chosen-container img {
   height: 300px;
-  padding: 10px;
+  margin-top: 10px;
 }
 
 #webcam-container {
