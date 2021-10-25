@@ -7,11 +7,12 @@ Developers:
 * [Cori Cathemer](https://github.com/coricathemer): Design, HTML, CSS
 * [Jennifer Molina](https://github.com/JenMol86): HTML, Testing
 
-application URL: [vloebel.github.io/happycamper](https://vloebel.github.io/happycamper/) 
+application URL: [vloebel.github.io/VisitAmerica](https://vloebel.github.io/VisitAmerica/) 
 
 **Modification History**  
 
-* -- 
+* 20201-10-25 Renamed repo to Visit America
+* 
 ## Notes:
 repo/application name will be changed from "happy camper" to "Visit America" after class presentation. 
 
